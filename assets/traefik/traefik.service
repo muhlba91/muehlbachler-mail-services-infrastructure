@@ -1,0 +1,14 @@
+[Unit]
+Description=Run Traefik
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+WorkingDirectory=/opt/traefik
+ExecStartPre=/usr/bin/docker compose --file /opt/traefik/docker-compose.yml --project-name traefik pull
+ExecStart=/usr/bin/docker compose --file /opt/traefik/docker-compose.yml --project-name traefik up --force-recreate
+ExecStop=/usr/bin/docker compose --file /opt/traefik/docker-compose.yml --project-name traefik stop
+
+[Install]
+WantedBy=multi-user.target

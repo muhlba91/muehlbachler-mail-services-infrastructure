@@ -1,0 +1,50 @@
+#!/bin/sh
+
+### mailcow ###
+cd /opt/mailcow
+
+# installation check
+if [ -f /opt/mailcow.version ]; then
+    # backup
+    /bin/mailcow-backup
+
+    # run update script
+    ./update.sh --skip-start --force
+else
+    # start services
+    systemctl daemon-reload
+    systemctl enable mailcow
+
+    # temporary start
+    docker compose up -d
+    sleep 90
+
+    # restore from backup, if exists
+    set +e
+    GOOGLE_APPLICATION_CREDENTIALS=/opt/google/credentials.json CLOUDSDK_CORE_PROJECT={{ project }} gcloud storage cp -r gs://{{ bucket.id }}/{{ bucket.path }}/backup/* /opt/backup/
+    backupNumber=`ls -d1 /opt/backup/mailcow/mailcow-*/ | wc -l | tr -d ' '`
+    MAILCOW_BACKUP_LOCATION=/opt/backup/mailcow THREADS=4 /opt/mailcow/helper-scripts/backup_and_restore.sh restore << EOF
+${backupNumber}
+0
+y
+y
+EOF
+    set -e
+
+    # stop mailcow for the systemd service to take precendence
+    docker compose down
+fi
+
+# adopt file related changes
+sed 's/sign_headers =.*/sign_headers = "{{ dkimSignHeaders }}";/g' /opt/mailcow/data/conf/rspamd/local.d/dkim_signing.conf
+
+# finalize installation
+echo "{{ version }}" > /opt/mailcow.version
+
+# restart services
+systemctl daemon-reload
+systemctl restart mailcow
+
+# cleanup old images
+sleep 90
+docker image prune --all --force

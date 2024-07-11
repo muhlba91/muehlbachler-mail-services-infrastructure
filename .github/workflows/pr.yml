@@ -1,0 +1,170 @@
+---
+name: Pull Request
+
+on:
+  pull_request:
+
+jobs:
+  conform:
+    runs-on: ubuntu-latest
+    name: Conform
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: siderolabs/conform@v0.1.0-alpha.27
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    runs-on: ubuntu-latest
+    name: ESLint
+    strategy:
+      max-parallel: 12
+      matrix:
+        node-version: ["18"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: |
+          yarn install
+          yarn lint
+
+  audit:
+    runs-on: ubuntu-latest
+    name: Node Audit
+    strategy:
+      max-parallel: 12
+      matrix:
+        node-version: ["18"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: |
+          yarn audit
+        continue-on-error: true
+
+  yamllint:
+    runs-on: ubuntu-latest
+    name: Lint YAML
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: |
+          yamllint .
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build IaC code
+    strategy:
+      max-parallel: 12
+      matrix:
+        node-version: ["18"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: |
+          yarn install
+          yarn build
+
+  preview:
+    runs-on: ubuntu-latest
+    name: Pulumi Preview
+    needs:
+      - lint
+      - build
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    strategy:
+      max-parallel: 12
+      matrix:
+        node-version: ["18"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - uses: hashicorp/vault-action@v3
+        id: import-secrets
+        with:
+          method: jwt
+          url: ${{ secrets.VAULT_ADDR }}
+          path: ${{ secrets.VAULT_PATH }}
+          role: ${{ secrets.VAULT_ROLE }}
+          exportToken: true
+          outputToken: true
+          secrets: |
+            github-muehlbachler-mail-services-infrastructure/data/pulumi access_token | PULUMI_ACCESS_TOKEN ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud region | CLOUDSDK_COMPUTE_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud workload_identity_provider | GOOGLE_WORKLOAD_IDENTITY_PROVIDER ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
+            github-muehlbachler-mail-services-infrastructure/data/aws region | AWS_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/aws identity_role_arn | AWS_IDENTITY_ROLE_ARN ;
+            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_client_id | TS_OAUTH_CLIENT_ID ;
+            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_secret | TS_OAUTH_SECRET ;
+            github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_IDENTITY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - run: |
+          npm install -g yarn
+
+      - run: |
+          yarn install
+          yarn build
+
+      - uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ env.TS_OAUTH_SECRET }}
+          tags: tag:github-actions
+
+      - uses: pulumi/actions@v5
+        with:
+          command: preview
+          stack-name: prod
+          comment-on-pr: true
+          refresh: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        env:
+          VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"

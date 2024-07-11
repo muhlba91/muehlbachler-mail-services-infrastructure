@@ -1,0 +1,13 @@
+---
+extends: default
+
+ignore:
+  - Pulumi*.yaml
+  - node_modules/
+
+rules:
+  line-length:
+    max: 180
+  truthy:
+    ignore:
+      - .github/

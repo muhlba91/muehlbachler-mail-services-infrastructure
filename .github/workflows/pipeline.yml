@@ -1,0 +1,157 @@
+---
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    name: Pulumi Preview
+    strategy:
+      max-parallel: 12
+      matrix:
+        node-version: ["18"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - uses: hashicorp/vault-action@v3
+        id: import-secrets
+        with:
+          method: jwt
+          url: ${{ secrets.VAULT_ADDR }}
+          path: ${{ secrets.VAULT_PATH }}
+          role: ${{ secrets.VAULT_ROLE }}
+          exportToken: true
+          outputToken: true
+          secrets: |
+            github-muehlbachler-mail-services-infrastructure/data/pulumi access_token | PULUMI_ACCESS_TOKEN ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud region | CLOUDSDK_COMPUTE_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud workload_identity_provider | GOOGLE_WORKLOAD_IDENTITY_PROVIDER ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
+            github-muehlbachler-mail-services-infrastructure/data/aws region | AWS_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/aws identity_role_arn | AWS_IDENTITY_ROLE_ARN ;
+            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_client_id | TS_OAUTH_CLIENT_ID ;
+            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_secret | TS_OAUTH_SECRET ;
+            github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_IDENTITY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - run: |
+          npm install -g yarn
+
+      - run: |
+          yarn install
+          yarn build
+
+      - uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ env.TS_OAUTH_SECRET }}
+          tags: tag:github-actions
+
+      - uses: pulumi/actions@v5
+        with:
+          command: preview
+          stack-name: prod
+          refresh: true
+        env:
+          VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Pulumi Deploy
+    needs:
+      - preview
+    strategy:
+      max-parallel: 12
+      matrix:
+        node-version: ["18"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - uses: jaxxstorm/action-install-gh-release@v1.12.0
+        with:
+          repo: k0sproject/k0sctl
+          extension-matching: disable
+          rename-to: k0sctl
+          chmod: 0755
+
+      - uses: hashicorp/vault-action@v3
+        id: import-secrets
+        with:
+          method: jwt
+          url: ${{ secrets.VAULT_ADDR }}
+          path: ${{ secrets.VAULT_PATH }}
+          role: ${{ secrets.VAULT_ROLE }}
+          exportToken: true
+          outputToken: true
+          secrets: |
+            github-muehlbachler-mail-services-infrastructure/data/pulumi access_token | PULUMI_ACCESS_TOKEN ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud region | CLOUDSDK_COMPUTE_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud workload_identity_provider | GOOGLE_WORKLOAD_IDENTITY_PROVIDER ;
+            github-muehlbachler-mail-services-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
+            github-muehlbachler-mail-services-infrastructure/data/aws region | AWS_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/aws identity_role_arn | AWS_IDENTITY_ROLE_ARN ;
+            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_client_id | TS_OAUTH_CLIENT_ID ;
+            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_secret | TS_OAUTH_SECRET ;
+            github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.GOOGLE_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT }}
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_IDENTITY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - run: |
+          npm install -g yarn
+
+      - run: |
+          yarn install
+          yarn build
+
+      - uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ env.TS_OAUTH_SECRET }}
+          tags: tag:github-actions
+
+      - uses: pulumi/actions@v5
+        with:
+          command: up
+          stack-name: prod
+        env:
+          VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"

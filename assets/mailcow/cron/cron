@@ -1,0 +1,1 @@
+57 3 * * * root /bin/mailcow-backup > /dev/null

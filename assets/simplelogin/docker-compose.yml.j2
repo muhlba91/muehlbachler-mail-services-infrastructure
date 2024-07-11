@@ -1,0 +1,123 @@
+---
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: simplelogin-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+    networks:
+      simplelogin:
+    sysctls:
+      - net.core.somaxconn=4096
+
+  init:
+    image: simplelogin/app-ci:v4.46.1
+    container_name: simplelogin-init
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      simplelogin:
+    command:
+      - sh
+      - -c
+      - /init.sh
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/simplelogin/data:/sl
+      - /opt/simplelogin/dkim.key:/dkim.key
+      - /opt/simplelogin/env:/code/.env
+      - /opt/simplelogin/init.sh:/init.sh
+
+  app:
+    image: simplelogin/app-ci:v4.46.1
+    container_name: simplelogin-app
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik_proxy
+
+      - traefik.http.routers.simplelogin_http.rule=Host(`{{ domain }}`)
+      - traefik.http.routers.simplelogin_http.entrypoints=web
+      - traefik.http.routers.simplelogin_http.service=simplelogin_http
+      - traefik.http.routers.simplelogin_http.middlewares=redirect-to-https
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.services.simplelogin_http.loadbalancer.server.port=7777
+
+      - traefik.http.routers.simplelogin_https.rule=Host(`{{ domain }}`)
+      - traefik.http.routers.simplelogin_https.entrypoints=websecure
+      - traefik.http.routers.simplelogin_https.service=simplelogin_https
+      - traefik.http.routers.simplelogin_https.tls=true
+      - traefik.http.routers.simplelogin_https.tls.certresolver=letsencrypt
+      - traefik.http.services.simplelogin_https.loadbalancer.server.port=7777
+    networks:
+      simplelogin:
+      proxy:
+    command:
+      - gunicorn
+      - "wsgi:app"
+      - -b
+      - "0.0.0.0:7777"
+      - -w
+      - "1"
+      - --timeout
+      - "30"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/simplelogin/data:/sl
+      - /opt/simplelogin/dkim.key:/dkim.key
+      - /opt/simplelogin/env:/code/.env
+
+  handler:
+    image: simplelogin/app-ci:v4.46.1
+    container_name: simplelogin-handler
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+    networks:
+      simplelogin:
+    command:
+      - python
+      - email_handler.py
+    ports:
+      - "20381:20381"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/simplelogin/data:/sl
+      - /opt/simplelogin/dkim.key:/dkim.key
+      - /opt/simplelogin/env:/code/.env
+
+  runner:
+    image: simplelogin/app-ci:v4.46.1
+    container_name: simplelogin-runner
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+    networks:
+      simplelogin:
+    command:
+      - python
+      - job_runner.py
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/simplelogin/data:/sl
+      - /opt/simplelogin/dkim.key:/dkim.key
+      - /opt/simplelogin/env:/code/.env
+
+networks:
+  simplelogin:
+  proxy:
+    name: traefik_proxy
+    external: true

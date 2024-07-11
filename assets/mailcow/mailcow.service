@@ -1,0 +1,14 @@
+[Unit]
+Description=Run Mailcow
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+WorkingDirectory=/opt/mailcow
+ExecStartPre=/usr/bin/docker compose --project-name mailcow pull
+ExecStart=/usr/bin/docker compose --project-name mailcow up --force-recreate --remove-orphans
+ExecStop=/usr/bin/docker compose --project-name mailcow stop
+
+[Install]
+WantedBy=multi-user.target

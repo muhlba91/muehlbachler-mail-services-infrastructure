@@ -1,0 +1,6 @@
+name: muehlbachler-mail-services
+description: "Muehlbachler: Mail Services"
+runtime:
+  name: nodejs
+  options:
+    typescript: false

@@ -1,0 +1,68 @@
+secretsprovider: gcpkms://projects/public-services-402810/locations/europe/keyRings/infrastructure-encryption/cryptoKeys/infrastructure-encryption
+encryptedkey: CiQAvgA/t7fhy6BfSycvkEehN1EU6xfIz6RXlNJaIHRjkpClizASSQB99kCJxyeq1M4MHkAn/4ffbOe/ecvgrIeW8NCuUuuYEwS8OOHNyIAWKq3QcfDjG3xt5yY9hlTLwZBc9ZSFTHBD5vRoH5luAqw=
+config:
+  muehlbachler-mail-services:backupBucketId: infrastructure-backups-87d6dbd4-4928-4cdc-8d9d-2b19417489d9
+  muehlbachler-mail-services:bucketId: infrastructure-assets-87d6dbd4-4928-4cdc-8d9d-2b19417489d9
+  muehlbachler-mail-services:database:
+    database:
+      simplelogin: simplelogin
+    users:
+      - simplelogin
+  muehlbachler-mail-services:dns:
+    email: postmaster@muehlbachler.io
+    project: muehlbachler-dns
+  muehlbachler-mail-services:mail:
+    dkimSignHeaders:
+      - from
+      - sender
+      - reply-to
+      - subject
+      - to
+      - cc
+      - mime-version
+      - content-type
+      - content-transfer-encoding
+      - content-language
+      - resent-to
+      - resent-cc
+      - resent-from
+      - resent-sender
+      - resent-message-id
+      - in-reply-to
+      - references
+      - list-id
+      - list-help
+      - list-owner
+      - list-unsubscribe
+      - list-subscribe
+      - list-post
+      - list-unsubscribe-post
+      - disposition-notification-to
+      - disposition-notification-options
+      - original-recipient
+      - openpgp
+      - autocrypt
+      - message-id
+      - date
+    main:
+      name: muehlbachler.io
+      zoneId: muehlbachler-io
+  muehlbachler-mail-services:network:
+    cidr: 10.20.0.0/16
+    name: mail-services
+    subnetCidr: 10.20.0.0/24
+  muehlbachler-mail-services:server:
+    ipv4: 10.20.0.10
+    publicSsh: false
+    type: cx22
+  muehlbachler-mail-services:simplelogin:
+    domain: aliases.email.muehlbachler.io
+    mail:
+      domain: email.muehlbachler.io
+      mx: mail.muehlbachler.io
+      zoneId: email-muehlbachler-io
+    oidc:
+      clientId: 257658871953318338@public_services
+      clientSecret:
+        secure: v1:WoyWx0csYf8usw30:9LPTNJffv7z45lpYkCJQC9yQ3ABd38PiawYqVlrNxyL5KPyYG+49nE5SDExJ/FDAlWRcamJiMhIHy2PqsU/TOQ2mmk6Y7Ro3Lo037BWxVZQ=
+      wellKnownUrl: https://muehlbachler-mhvy5g.zitadel.cloud/.well-known/openid-configuration

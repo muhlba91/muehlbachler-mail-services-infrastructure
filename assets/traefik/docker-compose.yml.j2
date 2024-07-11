@@ -1,0 +1,26 @@
+---
+services:
+  traefik:
+    image: traefik:v3.0.3
+    container_name: traefik
+    restart: unless-stopped
+    networks:
+      proxy:
+    command:
+      - --serverstransport.insecureskipverify=true
+    environment:
+      - GCE_PROJECT={{ gcpProject }}
+      - GCE_SERVICE_ACCOUNT_FILE=/etc/traefik/credentials.json
+      - GOOGLE_APPLICATION_CREDENTIALS=/etc/traefik/credentials.json
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /opt/traefik/traefik.yml:/etc/traefik/traefik.yml
+      - /opt/google/credentials.json:/etc/traefik/credentials.json
+      - /opt/traefik/certs:/etc/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  proxy:
