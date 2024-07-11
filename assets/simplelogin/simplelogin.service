@@ -1,0 +1,14 @@
+[Unit]
+Description=Run SimpleLogin
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+WorkingDirectory=/opt/simplelogin
+ExecStartPre=/usr/bin/docker compose --project-name simplelogin pull
+ExecStart=/usr/bin/docker compose --project-name simplelogin up --force-recreate --remove-orphans
+ExecStop=/usr/bin/docker compose --project-name simplelogin stop
+
+[Install]
+WantedBy=multi-user.target

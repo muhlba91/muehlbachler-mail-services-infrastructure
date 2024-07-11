@@ -1,0 +1,18 @@
+#!/bin/sh
+
+### simplelogin ###
+cd /opt/simplelogin
+
+# installation
+chmod +x /opt/simplelogin/init.sh
+
+# finalize installation
+echo "{{ version }}" > /opt/simplelogin.version
+
+# restart services
+systemctl daemon-reload
+systemctl restart simplelogin
+
+# cleanup old images
+sleep 90
+docker image prune --all --force

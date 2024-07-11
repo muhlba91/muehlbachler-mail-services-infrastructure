@@ -1,0 +1,48 @@
+---
+#version: 2024.06a
+services:
+  nginx-mailcow:
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik_proxy
+
+      - traefik.http.routers.mailcow_acme.rule=PathRegexp(`/\.well-known/.+`)
+      - traefik.http.routers.mailcow_acme.entrypoints=web
+      - traefik.http.routers.mailcow_acme.service=mailcow_acme
+      - traefik.http.routers.mailcow_acme.priority=200
+      - traefik.http.services.mailcow_acme.loadbalancer.server.port=8080
+
+      - traefik.http.routers.mailcow_http.rule=HostRegexp(`^mail\..+$`) || HostRegexp(`^autodiscover\..+$`) || HostRegexp(`^autoconfig\..+$`) || HostRegexp(`^mta-sts\..+$`)
+      - traefik.http.routers.mailcow_http.entrypoints=web
+      - traefik.http.routers.mailcow_http.service=mailcow_http
+      - traefik.http.routers.mailcow_http.middlewares=redirect-to-https
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.services.mailcow_http.loadbalancer.server.port=8080
+
+      - traefik.tcp.routers.mailcow_https.rule=HostSNI(`*`)
+      - traefik.tcp.routers.mailcow_https.entrypoints=websecure
+      - traefik.tcp.routers.mailcow_https.tls.passthrough=true
+      - traefik.tcp.routers.mailcow_https.service=mailcow_https
+      - traefik.tcp.services.mailcow_https.loadbalancer.server.port=8443
+    networks:
+      proxy:
+
+  mailcow-exporter:
+    image: thej6s/mailcow-exporter:1.4.0
+    container_name: mailcow-exporter
+    restart: unless-stopped
+    depends_on:
+      postfix-mailcow:
+        condition: service_started
+    environment:
+      - MAILCOW_EXPORTER_HOST={{ mailname }}
+      - MAILCOW_EXPORTER_API_KEY={{ apiKey }}
+    ports:
+      - "9099:9099"
+    networks:
+      mailcow-network:
+
+networks:
+  proxy:
+    name: traefik_proxy
+    external: true

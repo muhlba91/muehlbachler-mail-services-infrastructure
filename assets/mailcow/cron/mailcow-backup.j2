@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# run backup
+MAILCOW_BACKUP_LOCATION=/opt/backup/mailcow THREADS=2 /opt/mailcow/helper-scripts/backup_and_restore.sh backup all --delete-days 3
+
+# upload data to google cloud storage
+GOOGLE_APPLICATION_CREDENTIALS=/opt/google/credentials.json CLOUDSDK_CORE_PROJECT={{ project }} gcloud storage cp -r /opt/backup/mailcow/ gs://{{ bucket.id }}/{{ bucket.path }}/backup/ || true

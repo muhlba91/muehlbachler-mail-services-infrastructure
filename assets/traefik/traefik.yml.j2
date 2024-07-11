@@ -1,0 +1,49 @@
+---
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      keyType: EC256
+      dnsChallenge:
+        provider: gcloud
+        resolvers:
+          - "8.8.8.8:53"
+          - "8.8.4.4:53"
+      email: {{ acmeEmail }}
+      storage: /etc/certs/acme.json
+
+entryPoints:
+  web:
+    address: :80
+    http3: {}
+    # http:
+    #   redirections:
+    #     entryPoint:
+    #       to: websecure
+    #       scheme: https
+    proxyProtocol:
+      trustedIPs:
+        - "127.0.0.0/8"
+        - "::1"
+        - "10.0.0.0/8"
+        - "172.16.0.0/12"
+
+  websecure:
+    address: :443
+    http3: {}
+    http:
+      tls:
+        certResolver: letsencrypt
+    proxyProtocol:
+      trustedIPs:
+        - "127.0.0.0/8"
+        - "::1"
+        - "10.0.0.0/8"
+        - "172.16.0.0/12"
+
+providers:
+  docker:
+    exposedByDefault: false

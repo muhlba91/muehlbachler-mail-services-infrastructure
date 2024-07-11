@@ -1,0 +1,6 @@
+myhostname = mail.muehlbachler.io
+
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 [fe80::]/10 10.0.0.0/8 172.16.0.0/12 [fd4d:6169:6c63:6f77::]/64
+
+body_checks = pcre:/opt/postfix/conf/body_checks.pcre
+smtpd_client_restrictions = pcre:/opt/postfix/conf/client_headers.pcre

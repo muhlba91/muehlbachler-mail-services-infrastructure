@@ -1,0 +1,52 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:base",
+        ":dependencyDashboard",
+        ":semanticCommitTypeAll(chore)"
+    ],
+    "prHourlyLimit": 0,
+    "prConcurrentLimit": 0,
+    "baseBranches": [
+        "main"
+    ],
+    "enabledManagers": [
+        "github-actions",
+        "npm",
+        "docker-compose",
+        "regex"
+    ],
+    "github-actions": {
+        "fileMatch": [
+            "^(workflow-templates|\\.github/workflows)/[^/]+\\.ya?ml$",
+            "(^|/)action\\.ya?ml$"
+        ]
+    },
+    "npm": {
+        "fileMatch": [
+            "(^|/)package\\.json$"
+        ],
+        "rollbackPrs": true,
+        "versioning": "npm"
+    },
+    "docker-compose": {
+        "fileMatch": [
+            "(^|/)(?:docker-)?compose[^/]*\\.ya?ml$",
+            "(^|/)(?:docker-)?compose[^/]*\\.ya?ml.j2$"
+        ]
+    },
+    "customManagers": [
+        {
+            "customType": "regex",
+            "fileMatch": [
+                "(^|/)docker-compose\\.override\\.yml$"
+            ],
+            "matchStrings": [
+                "#\\s+version:\\s+(?<currentValue>\\S+)"
+            ],
+            "depNameTemplate": "mailcow/mailcow-dockerized",
+            "versioningTemplate": "regex:^(?<major>\\d+)-(?<minor>\\d+)((?<revision>.+))?$",
+            "datasourceTemplate": "github-releases"
+        }
+    ]
+}
