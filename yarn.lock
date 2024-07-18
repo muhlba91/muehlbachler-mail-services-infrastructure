@@ -500,9 +500,9 @@
     "@pulumi/pulumi" "^3.0.0"
 
 "@pulumi/postgresql@^3.11.1":
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/@pulumi/postgresql/-/postgresql-3.11.1.tgz#5ce764e8207a4c460762e8e84a0dfcaa2ab01c49"
-  integrity sha512-V1Mxwm5DosxRPdI0XVAa4doWrvEgtmhx2IYsrkOKlwz34XS/QOi19P2voaezYteSjmQTEQyVQ4ebtYQUwEwifw==
+  version "3.11.3"
+  resolved "https://registry.yarnpkg.com/@pulumi/postgresql/-/postgresql-3.11.3.tgz#4d408cad9438b32163d40d3fef6eac84835cc25c"
+  integrity sha512-cYsGy/9x7S9MS+3/u+oUaTtUxQV5z5AMt7Bg0Y7RlyWsAEf5Nt6V3m5+aU5nycdloM+RehrpAmhKXFj/5WPigA==
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 
@@ -2233,7 +2233,14 @@ is-callable@^1.1.3, is-callable@^1.1.4, is-callable@^1.2.7:
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.7.tgz#3bc2a85ea742d9e36205dcacdd72ca1fdc51b055"
   integrity sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==
 
-is-core-module@^2.13.0, is-core-module@^2.13.1:
+is-core-module@^2.13.0:
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.15.0.tgz#71c72ec5442ace7e76b306e9d48db361f22699ea"
+  integrity sha512-Dd+Lb2/zvk9SKy1TGCt1wFJFo/MWBPMX5x7KcvLajWTGuomczdQX61PvY5yK6SVACwpoexWo81IfFyoKY2QnTA==
+  dependencies:
+    hasown "^2.0.2"
+
+is-core-module@^2.13.1:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.14.0.tgz#43b8ef9f46a6a08888db67b1ffd4ec9e3dfd59d1"
   integrity sha512-a5dFJih5ZLYlRtDc0dZWP7RiKr6xIKzmn/oAYCDvdLThadVgyJwlaoQPmRtMSpz+rk0OGAgIu+TcM9HUF0fk1A==
