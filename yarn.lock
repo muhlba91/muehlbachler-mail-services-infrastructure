@@ -515,9 +515,9 @@
     read-package-json "^2.0.13"
 
 "@pulumi/hcloud@^1.19.1":
-  version "1.20.1"
-  resolved "https://registry.yarnpkg.com/@pulumi/hcloud/-/hcloud-1.20.1.tgz#962e52fceae797c49cb716260e95601aff34c84a"
-  integrity sha512-lt9BFgjlksLLPAYEE3ukbDEeWI9tOjnoMmwV6Sm+Ep5hBucodfssVIxdTSAS8lHamIUndO01El8bkM775IHrHw==
+  version "1.20.2"
+  resolved "https://registry.yarnpkg.com/@pulumi/hcloud/-/hcloud-1.20.2.tgz#e68b220414a5906be34a6b76e07759d3c0f65a7b"
+  integrity sha512-46f1qGp2Msgzj9mPsMPO2l4gA2TSpQFVFMJlJGssBKTwBcLYK2VTNfS5ipTs6JCiZeSB+Wzmdj66G9GYnAFdew==
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 
