@@ -515,9 +515,9 @@
     read-package-json "^2.0.13"
 
 "@pulumi/hcloud@^1.19.1":
-  version "1.20.2"
-  resolved "https://registry.yarnpkg.com/@pulumi/hcloud/-/hcloud-1.20.2.tgz#e68b220414a5906be34a6b76e07759d3c0f65a7b"
-  integrity sha512-46f1qGp2Msgzj9mPsMPO2l4gA2TSpQFVFMJlJGssBKTwBcLYK2VTNfS5ipTs6JCiZeSB+Wzmdj66G9GYnAFdew==
+  version "1.20.3"
+  resolved "https://registry.yarnpkg.com/@pulumi/hcloud/-/hcloud-1.20.3.tgz#293c2b1221fb50dc9da1fcf8785052df054a93c5"
+  integrity sha512-tKZU50qeoGFWZJHT7YFig0+Cr1asWqAEliYnAOqdsLqv3DYoi4s/pa40uixI+/4pJAooYoxFxt2P1inn286nzg==
   dependencies:
     "@pulumi/pulumi" "^3.0.0"
 
@@ -799,9 +799,9 @@
   integrity sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==
 
 "@types/node@*", "@types/node@>=13.7.0":
-  version "22.6.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.6.1.tgz#e531a45f4d78f14a8468cb9cdc29dc9602afc7ac"
-  integrity sha512-V48tCfcKb/e6cVUigLAaJDAILdMP0fUW6BidkPK4GpGjXcfbnoHasCZDwz3N3yVt5we2RHm4XTQCpv0KJz9zqw==
+  version "22.7.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.0.tgz#670aa1874bc836863e5c116f9f2c32416ff27e1f"
+  integrity sha512-MOdOibwBs6KW1vfqz2uKMlxq5xAfAZ98SZjO8e3XnAbFnTJtAspqhWk7hrdSAs9/Y14ZWMiy7/MxMUzAOadYEw==
   dependencies:
     undici-types "~6.19.2"
 
