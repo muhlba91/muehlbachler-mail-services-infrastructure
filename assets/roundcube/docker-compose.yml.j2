@@ -30,7 +30,7 @@ services:
       - /opt/roundcube/config:/var/roundcube/config
   
   nginx:
-    image: nginx:1.27.1-alpine
+    image: nginx:1.27.2-alpine
     container_name: roundcube-nginx
     restart: unless-stopped
     labels:
