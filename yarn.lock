@@ -535,11 +535,11 @@
     "@pulumi/pulumi" "^3.0.0"
 
 "@pulumi/postgresql@^3.11.1":
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/@pulumi/postgresql/-/postgresql-3.12.0.tgz#dde5cc641e86d38749b0704d3e9409a911a989ee"
-  integrity sha512-64oaeegnPPTKMmuR/yC/s65/MwjOKKmUTkBooNc5wf3a8XRJzLmhyNuH+aY8RBCCn5j/pfGErpYlbyrH5xJ17g==
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/@pulumi/postgresql/-/postgresql-3.12.1.tgz#a3298704cf01eec081676a0457ab6973b5d428f5"
+  integrity sha512-9lvU+w+6f1qm7KCRtsC0GA9Iy4pLOJNXiSwo5TsDGtWHg+0G/6Hb4kzM43/bnGMJBEUT7QcFZZljBLe1cuCZ3A==
   dependencies:
-    "@pulumi/pulumi" "^3.0.0"
+    "@pulumi/pulumi" "^3.42.0"
 
 "@pulumi/pulumi@^3.0.0", "@pulumi/pulumi@^3.42.0", "@pulumi/pulumi@^3.69.0":
   version "3.135.1"
