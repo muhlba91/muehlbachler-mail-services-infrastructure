@@ -743,11 +743,11 @@ __metadata:
   linkType: hard
 
 "@pulumi/postgresql@npm:^3.11.1":
-  version: 3.12.1
-  resolution: "@pulumi/postgresql@npm:3.12.1"
+  version: 3.12.2
+  resolution: "@pulumi/postgresql@npm:3.12.2"
   dependencies:
-    "@pulumi/pulumi": "npm:^3.42.0"
-  checksum: 10c0/e8a0183ec156c0c12fe452aff4903af775774f1647626c19eba806b3ddda0edcdc73eff0d51b0b628d3cf5c55775733e4da1f0c647bf3fd6864dccb0fa158c6e
+    "@pulumi/pulumi": "npm:^3.136.0"
+  checksum: 10c0/1af2b7d655868ed8d098f89b15b4ddacdab5b2b154dc25b2e1ba61bdd2465cdf73c877494f86982acb78c680eb1e1185dde383ada49f580b847f2f9927a4505f
   languageName: node
   linkType: hard
 
@@ -794,6 +794,52 @@ __metadata:
     typescript:
       optional: true
   checksum: 10c0/141269df0b29acae538b235438b049e91fdb87a0128dd05c627560efc346e07a04ded0f99ca912f56b451c8078df9e31781bf99cab7c1840603acea7996f851e
+  languageName: node
+  linkType: hard
+
+"@pulumi/pulumi@npm:^3.136.0":
+  version: 3.137.0
+  resolution: "@pulumi/pulumi@npm:3.137.0"
+  dependencies:
+    "@grpc/grpc-js": "npm:^1.10.1"
+    "@logdna/tail-file": "npm:^2.0.6"
+    "@npmcli/arborist": "npm:^7.3.1"
+    "@opentelemetry/api": "npm:^1.9"
+    "@opentelemetry/exporter-zipkin": "npm:^1.25"
+    "@opentelemetry/instrumentation": "npm:^0.52"
+    "@opentelemetry/instrumentation-grpc": "npm:^0.52"
+    "@opentelemetry/resources": "npm:^1.25"
+    "@opentelemetry/sdk-trace-base": "npm:^1.25"
+    "@opentelemetry/sdk-trace-node": "npm:^1.25"
+    "@opentelemetry/semantic-conventions": "npm:^1.25"
+    "@pulumi/query": "npm:^0.3.0"
+    "@types/google-protobuf": "npm:^3.15.5"
+    "@types/semver": "npm:^7.5.6"
+    "@types/tmp": "npm:^0.2.6"
+    execa: "npm:^5.1.0"
+    fdir: "npm:^6.1.1"
+    google-protobuf: "npm:^3.5.0"
+    got: "npm:^11.8.6"
+    ini: "npm:^2.0.0"
+    js-yaml: "npm:^3.14.0"
+    minimist: "npm:^1.2.6"
+    normalize-package-data: "npm:^6.0.0"
+    picomatch: "npm:^3.0.1"
+    pkg-dir: "npm:^7.0.0"
+    require-from-string: "npm:^2.0.1"
+    semver: "npm:^7.5.2"
+    source-map-support: "npm:^0.5.6"
+    tmp: "npm:^0.2.1"
+    upath: "npm:^1.1.0"
+  peerDependencies:
+    ts-node: ">= 7.0.1 < 12"
+    typescript: ">= 3.8.3 < 6"
+  peerDependenciesMeta:
+    ts-node:
+      optional: true
+    typescript:
+      optional: true
+  checksum: 10c0/67f09baf29963052b9931fe0a06af61786b205a9674b458f1b14265346011de3779d9c60a11070c6ed9876725a2198178bb7868c30f38d6b51045e0d3385fea9
   languageName: node
   linkType: hard
 
