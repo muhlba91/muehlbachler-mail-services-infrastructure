@@ -25,6 +25,12 @@ DBPASS={{ db.auth.user }}
 DBROOT={{ db.auth.root }}
 
 # ------------------------------
+# REDIS configuration
+# ------------------------------
+
+REDISPASS={{ redis.password }}
+
+# ------------------------------
 # HTTP/S Bindings
 # ------------------------------
 
@@ -158,16 +164,19 @@ SKIP_SOGO=y
 
 # Skip Solr on low-memory systems or if you do not want to store a readable index of your mails in solr-vol-1.
 
-SKIP_SOLR=y
+SKIP_FTS=n
 
-# Solr heap size in MB, there is no recommendation, please see Solr docs.
-# Solr is a prone to run OOM and should be monitored. Unmonitored Solr setups are not recommended.
+# Dovecot Indexing (FTS) Process maximum heap size in MB, there is no recommendation, please see Dovecot docs.
+# Flatcurve (Xapian backend) is used as the FTS Indexer. It is supposed to be efficient in CPU and RAM consumption.
+# However: Please always monitor your Resource consumption!
 
-SOLR_HEAP=1024
+FTS_HEAP=128
 
-# Enable Flatcurve as full-text search engine (experimental) - y/n
+# Controls how many processes the Dovecot indexing process can spawn at max.
+# Too many indexing processes can use a lot of CPU and Disk I/O.
+# Please visit: https://doc.dovecot.org/configuration_manual/service_configuration/#indexer-worker for more informations
 
-FLATCURVE_EXPERIMENTAL=y
+FTS_PROCS=1
 
 # Allow admins to log into SOGo as email user (without any password)
 
@@ -192,7 +201,7 @@ USE_WATCHDOG=y
 #WATCHDOG_NOTIFY_WEBHOOK=https://discord.com/api/webhooks/XXXXXXXXXXXXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 # JSON body included in the webhook POST request. Needs to be in single quotes.
 # Following variables are available: SUBJECT, BODY
-#WATCHDOG_NOTIFY_WEBHOOK_BODY='{"username": "mailcow Watchdog", "content": "****\n"}'
+#WATCHDOG_NOTIFY_WEBHOOK_BODY='{"username": "mailcow Watchdog", "content": "**${SUBJECT}**\n${BODY}"}'
 
 # Notify about banned IP (includes whois lookup)
 WATCHDOG_NOTIFY_BAN=n

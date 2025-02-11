@@ -19,6 +19,7 @@ import { renderTemplate } from '../util/template';
  * @param {Output<string>} sshKey the SSH key
  * @param {Output<string>} dbUserPassword the database user password
  * @param {Output<string>} dbRootPassword the database root password
+ * @param {Output<string>} redisPassword the Redis password
  * @param {Output<string>} mailcowApiKeyReadWrite the Mailcow read-write API key
  * @param {Output<string>} mailcowApiKeyRead the Mailcow read-only API key
  * @param {readonly Resource[]} dependsOn the resources this command depends on
@@ -30,6 +31,7 @@ export const installMailcow = (
   sshKey: Output<string>,
   dbUserPassword: Output<string>,
   dbRootPassword: Output<string>,
+  redisPassword: Output<string>,
   mailcowApiKeyReadWrite: Output<string>,
   mailcowApiKeyRead: Output<string>,
   dependsOn: readonly Resource[],
@@ -162,13 +164,14 @@ export const installMailcow = (
   const configFileHash = all([
     dbUserPassword,
     dbRootPassword,
+    redisPassword,
     mailcowApiKeyReadWrite,
     mailcowApiKeyRead,
     ipv4Address,
     ipv6Address,
   ])
     .apply(
-      ([userPassword, rootPassword, apiKeyReadWrite, apiKeyRead, ipv4, ipv6]) =>
+      ([userPassword, rootPassword, redisPass, apiKeyReadWrite, apiKeyRead, ipv4, ipv6]) =>
         renderTemplate('./assets/mailcow/config/mailcow.conf.j2', {
           mailname: getMailname(mailConfig.main.name),
           db: {
@@ -176,6 +179,9 @@ export const installMailcow = (
               user: userPassword,
               root: rootPassword,
             },
+          },
+          redis: {
+            password: redisPass,
           },
           ip: {
             v4: ipv4,

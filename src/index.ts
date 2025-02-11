@@ -29,6 +29,9 @@ export = async () => {
   const dbRootPassword = createRandomPassword('db-root', {
     special: false,
   });
+  const redisPassword = createRandomPassword('redis', {
+    special: false,
+  });
   const mailcowApiKeyReadWrite = createRandomPassword(
     'mailcow-api-read-write',
     {
@@ -83,6 +86,7 @@ export = async () => {
       sshKey.privateKeyPem,
       dbUserPassword.password,
       dbRootPassword.password,
+      redisPassword.password,
       mailcowApiKeyReadWrite.password,
       mailcowApiKeyRead.password,
       [docker, gcloudInstall, traefikInstall, server.resource],
