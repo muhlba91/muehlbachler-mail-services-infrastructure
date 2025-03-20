@@ -6,6 +6,7 @@ import { installGCloud } from './lib/gcloud';
 import { createHetznerSetup } from './lib/hetzner';
 import { installMailcow } from './lib/mailcow';
 import { createDNSRecords } from './lib/mailcow/record';
+import { installNtfy } from './lib/ntfy';
 import { createPostgresql } from './lib/postgresql';
 import { installRoundcube } from './lib/roundcube';
 import { installSimpleLogin } from './lib/simplelogin';
@@ -112,6 +113,15 @@ export = async () => {
       mailcowApiKeyReadWrite.password,
       [docker, traefikInstall, server.resource],
     ),
+  );
+
+  // install ntfy
+  all([gcloud, traefik]).apply(([traefikInstall]) =>
+    installNtfy(server.sshIPv4, sshKey.privateKeyPem, [
+      docker,
+      traefikInstall,
+      server.resource,
+    ]),
   );
 
   // write output files for the server
