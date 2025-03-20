@@ -1,0 +1,14 @@
+[Unit]
+Description=Run Ntfy
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+WorkingDirectory=/opt/ntfy
+ExecStartPre=/usr/bin/docker compose --project-name ntfy pull
+ExecStart=/usr/bin/docker compose --project-name ntfy up --force-recreate --remove-orphans
+ExecStop=/usr/bin/docker compose --project-name ntfy stop
+
+[Install]
+WantedBy=multi-user.target

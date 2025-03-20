@@ -9,6 +9,7 @@ import { DatabaseConfig } from '../model/config/database';
 import { DNSConfig } from '../model/config/dns';
 import { MailConfig } from '../model/config/mail';
 import { NetworkConfig } from '../model/config/network';
+import { NtfyConfig } from '../model/config/ntfy';
 import { RoundcubeConfig } from '../model/config/roundcube';
 import { ServerConfig } from '../model/config/server';
 import { SimpleLoginConfig } from '../model/config/simplelogin';
@@ -26,6 +27,7 @@ export const simpleloginConfig =
   config.requireObject<SimpleLoginConfig>('simplelogin');
 export const roundcubeConfig =
   config.requireObject<RoundcubeConfig>('roundcube');
+export const ntfyConfig = config.requireObject<NtfyConfig>('ntfy');
 export const databaseConfig = config.requireObject<DatabaseConfig>('database');
 
 const sharedServicesStack = new StackReference(

@@ -171,7 +171,15 @@ export const installMailcow = (
     ipv6Address,
   ])
     .apply(
-      ([userPassword, rootPassword, redisPass, apiKeyReadWrite, apiKeyRead, ipv4, ipv6]) =>
+      ([
+        userPassword,
+        rootPassword,
+        redisPass,
+        apiKeyReadWrite,
+        apiKeyRead,
+        ipv4,
+        ipv6,
+      ]) =>
         renderTemplate('./assets/mailcow/config/mailcow.conf.j2', {
           mailname: getMailname(mailConfig.main.name),
           db: {

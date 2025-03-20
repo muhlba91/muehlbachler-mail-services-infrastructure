@@ -1,0 +1,31 @@
+#!/bin/sh
+
+### ntfy ###
+cd /opt/ntfy
+
+# installation check
+if [ -f /opt/ntfy.version ]; then
+    # backup
+    /bin/ntfy-backup
+else
+    # start services
+    systemctl daemon-reload
+    systemctl enable ntfy
+
+    # restore from backup, if exists
+    set +e
+    GOOGLE_APPLICATION_CREDENTIALS=/opt/google/credentials.json CLOUDSDK_CORE_PROJECT={{ project }} gcloud storage cp -r gs://{{ bucket.id }}/{{ bucket.path }}/backup/* /opt/ntfy/data/
+    set -e
+fi
+
+# finalize installation
+echo "{{ version }}" > /opt/ntfy.version
+
+# restart services
+systemctl daemon-reload
+systemctl enable ntfy
+systemctl restart ntfy
+
+# cleanup old images
+sleep 90
+docker image prune --all --force

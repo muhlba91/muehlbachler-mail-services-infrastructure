@@ -72,3 +72,7 @@ config:
       clientSecret:
         secure: v1:WoyWx0csYf8usw30:9LPTNJffv7z45lpYkCJQC9yQ3ABd38PiawYqVlrNxyL5KPyYG+49nE5SDExJ/FDAlWRcamJiMhIHy2PqsU/TOQ2mmk6Y7Ro3Lo037BWxVZQ=
       wellKnownUrl: https://muehlbachler-mhvy5g.zitadel.cloud/.well-known/openid-configuration
+  muehlbachler-mail-services:ntfy:
+    domain:
+      name: notify.infrastructure.muehlbachler.io
+      zoneId: muehlbachler-io
