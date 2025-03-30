@@ -5,6 +5,8 @@ import { commonLabels, environment, globalName } from '../configuration';
 
 /**
  * Creates a Hetzner server.
+ * 
+ * Note: the server is protected by default, so it cannot be deleted (or rebuilt).
  *
  * @param {string} serverType the server type
  * @param {Output<string>} sshKey the SSH key
@@ -49,7 +51,11 @@ export const createServer = (
       ],
       firewallIds: [firewall],
       backups: true,
+      deleteProtection: true,
+      rebuildProtection: true,
       labels: commonLabels,
     },
-    {},
+    {
+      protect: true,
+    },
   );
