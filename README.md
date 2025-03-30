@@ -63,6 +63,7 @@ network:
 
 ```yaml
 server:
+  location: the Hetzner cloud server location (e.g. `nbg1`, `fsn1`)
   type: the Hetzner cloud server type/size
   ip: the internal IP address (must be within the subnet CIDR `network.subnetCidr`)
   publicSsh: connect to the server through its public ip address (`true`) or private ip address (`false`) (optional, default: `false`)
