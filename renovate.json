@@ -8,15 +8,13 @@
     ],
     "prHourlyLimit": 0,
     "prConcurrentLimit": 0,
-    "baseBranches": [
-        "main"
-    ],
+    "baseBranches": ["main"],
     "enabledManagers": [
         "github-actions",
         "pre-commit",
         "npm",
         "docker-compose",
-        "regex"
+        "custom.regex"
     ],
     "github-actions": {
         "fileMatch": [
@@ -26,14 +24,10 @@
     },
     "pre-commit": {
         "enabled": true,
-        "fileMatch": [
-            "(^|/)\\.pre-commit-config\\.ya?ml$"
-        ]
+        "fileMatch": ["(^|/)\\.pre-commit-config\\.ya?ml$"]
     },
     "npm": {
-        "fileMatch": [
-            "(^|/)package\\.json$"
-        ],
+        "fileMatch": ["(^|/)package\\.json$"],
         "rollbackPrs": true,
         "versioning": "npm"
     },
@@ -50,9 +44,7 @@
                 "(^|/)docker-compose\\.override\\.yml$",
                 "(^|/)docker-compose\\.override\\.yml\\.j2$"
             ],
-            "matchStrings": [
-                "#version:\\s+(?<currentValue>\\S+)"
-            ],
+            "matchStrings": ["#version:\\s+(?<currentValue>\\S+)"],
             "depNameTemplate": "mailcow/mailcow-dockerized",
             "versioningTemplate": "regex:^(?<major>\\d+)-(?<minor>\\d+)((?<revision>[a-z]+))?$",
             "datasourceTemplate": "github-releases"
