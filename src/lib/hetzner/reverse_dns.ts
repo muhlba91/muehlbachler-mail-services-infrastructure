@@ -22,21 +22,14 @@ export const createReverseDNSRecords = (
   const mainServer = getMailname(mailConfig.main.name);
 
   // reverse DNS entries in Hetzner
-  // FIXME: nbg1
-  new hcloud.Rdns(
-    `hcloud-rdns-ipv4${datacenter == 'fsn1-dc14' ? '' : '-' + datacenter}`,
-    {
-      primaryIpId: ipv4.id.apply(hetznerIdentifierToNumber),
-      ipAddress: ipv4.ipAddress,
-      dnsPtr: mainServer,
-    },
-  );
-  new hcloud.Rdns(
-    `hcloud-rdns-ipv6${datacenter == 'fsn1-dc14' ? '' : '-' + datacenter}`,
-    {
-      primaryIpId: ipv6.id.apply(hetznerIdentifierToNumber),
-      ipAddress: ipv6Address,
-      dnsPtr: mainServer,
-    },
-  );
+  new hcloud.Rdns(`hcloud-rdns-ipv4-${datacenter}`, {
+    primaryIpId: ipv4.id.apply(hetznerIdentifierToNumber),
+    ipAddress: ipv4.ipAddress,
+    dnsPtr: mainServer,
+  });
+  new hcloud.Rdns(`hcloud-rdns-ipv6-${datacenter}`, {
+    primaryIpId: ipv6.id.apply(hetznerIdentifierToNumber),
+    ipAddress: ipv6Address,
+    dnsPtr: mainServer,
+  });
 };

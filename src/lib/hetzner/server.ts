@@ -29,7 +29,7 @@ export const createServer = (
   primaryIPv6Address: Output<number>,
 ): hcloud.Server =>
   new hcloud.Server(
-    `hcloud-server-mail${location == 'fsn1' ? '' : '-' + location}`, // FIXME: nbg1 - do we need this that way???
+    `hcloud-server-mail-${location}`,
     {
       name: `${globalName}-${environment}-${location}`,
       serverType: serverType,

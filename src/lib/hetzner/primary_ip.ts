@@ -14,7 +14,7 @@ export const createPrimaryIP = (
   datacenter: string,
 ): hcloud.PrimaryIp =>
   new hcloud.PrimaryIp(
-    `hcloud-primary-ip-mail-${type}${datacenter == 'fsn1-dc14' ? '' : '-' + datacenter}`, // FIXME: nbg1
+    `hcloud-primary-ip-mail-${type}-${datacenter}`,
     {
       name: `${globalName}-${environment}-${type}-${datacenter}`,
       assigneeType: 'server',
