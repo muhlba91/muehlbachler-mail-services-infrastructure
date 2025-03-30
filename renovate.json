@@ -16,7 +16,7 @@
         "pre-commit",
         "npm",
         "docker-compose",
-        "regex"
+        "custom.regex"
     ],
     "github-actions": {
         "fileMatch": [
@@ -47,8 +47,8 @@
         {
             "customType": "regex",
             "fileMatch": [
-                "(^|/)docker-compose\\.override\\.yml$",
-                "(^|/)docker-compose\\.override\\.yml\\.j2$"
+                "(^|/)docker-compose\\.override\\.ya?ml$",
+                "(^|/)docker-compose\\.override\\.ya?ml\\.j2$"
             ],
             "matchStrings": [
                 "#version:\\s+(?<currentValue>\\S+)"

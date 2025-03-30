@@ -1,5 +1,5 @@
 ---
-#version: 2025-02
+#version: 2025-03a
 services:
   nginx-mailcow:
     labels:
@@ -28,7 +28,7 @@ services:
       proxy:
 
   mailcow-exporter:
-    image: thej6s/mailcow-exporter:1.4.0
+    image: ghcr.io/mailcow/prometheus-exporter:2.0.1
     container_name: mailcow-exporter
     restart: unless-stopped
     depends_on:

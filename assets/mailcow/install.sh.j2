@@ -9,6 +9,7 @@ if [ -f /opt/mailcow.version ]; then
     /bin/mailcow-backup
 
     # run update script
+    ./update.sh --skip-start --force # downloads the first time it runs
     ./update.sh --skip-start --force
 else
     # start services
