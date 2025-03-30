@@ -54,6 +54,7 @@ export const createServer = (
       backups: true,
       deleteProtection: true,
       rebuildProtection: true,
+      keepDisk: true,
       labels: commonLabels,
     },
     {
