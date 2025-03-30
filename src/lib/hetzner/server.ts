@@ -5,9 +5,10 @@ import { commonLabels, environment, globalName } from '../configuration';
 
 /**
  * Creates a Hetzner server.
- * 
+ *
  * Note: the server is protected by default, so it cannot be deleted (or rebuilt).
  *
+ * @param {string} location the location of the server
  * @param {string} serverType the server type
  * @param {Output<string>} sshKey the SSH key
  * @param {Output<number>} firewall the firewall identifier
@@ -18,6 +19,7 @@ import { commonLabels, environment, globalName } from '../configuration';
  * @returns {hcloud.Server} the generated server
  */
 export const createServer = (
+  location: string,
   serverType: string,
   sshKey: Output<string>,
   firewall: Output<number>,
@@ -27,14 +29,13 @@ export const createServer = (
   primaryIPv6Address: Output<number>,
 ): hcloud.Server =>
   new hcloud.Server(
-    'hcloud-server-mail',
+    `hcloud-server-mail${location == 'fsn1' ? '' : '-' + location}`, // FIXME: nbg1 - do we need this that way???
     {
-      name: `${globalName}-${environment}`,
+      name: `${globalName}-${environment}-${location}`,
       serverType: serverType,
       image: 'ubuntu-24.04',
       sshKeys: [sshKey],
-      // datacenter: 'fsn1-dc14',
-      location: 'fsn1',
+      location: location,
       networks: [
         {
           networkId: network,

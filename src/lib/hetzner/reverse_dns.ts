@@ -11,23 +11,32 @@ import { getMailname } from '../util/mail';
  * @param {hcloud.PrimaryIp} ipv4 the IPv4 address
  * @param {hcloud.PrimaryIp} ipv6 the IPv6 address
  * @param {Output<string>} ipv6Address the IPv6 address as a string
+ * @param {string} datacenter the datacenter of the IP addresses
  */
 export const createReverseDNSRecords = (
   ipv4: hcloud.PrimaryIp,
   ipv6: hcloud.PrimaryIp,
   ipv6Address: Output<string>,
+  datacenter: string,
 ) => {
   const mainServer = getMailname(mailConfig.main.name);
 
   // reverse DNS entries in Hetzner
-  new hcloud.Rdns('hcloud-rdns-ipv4', {
-    primaryIpId: ipv4.id.apply(hetznerIdentifierToNumber),
-    ipAddress: ipv4.ipAddress,
-    dnsPtr: mainServer,
-  });
-  new hcloud.Rdns('hcloud-rdns-ipv6', {
-    primaryIpId: ipv6.id.apply(hetznerIdentifierToNumber),
-    ipAddress: ipv6Address,
-    dnsPtr: mainServer,
-  });
+  // FIXME: nbg1
+  new hcloud.Rdns(
+    `hcloud-rdns-ipv4${datacenter == 'fsn1-dc14' ? '' : '-' + datacenter}`,
+    {
+      primaryIpId: ipv4.id.apply(hetznerIdentifierToNumber),
+      ipAddress: ipv4.ipAddress,
+      dnsPtr: mainServer,
+    },
+  );
+  new hcloud.Rdns(
+    `hcloud-rdns-ipv6${datacenter == 'fsn1-dc14' ? '' : '-' + datacenter}`,
+    {
+      primaryIpId: ipv6.id.apply(hetznerIdentifierToNumber),
+      ipAddress: ipv6Address,
+      dnsPtr: mainServer,
+    },
+  );
 };
