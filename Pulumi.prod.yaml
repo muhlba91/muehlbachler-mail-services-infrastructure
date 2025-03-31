@@ -60,7 +60,7 @@ config:
   muehlbachler-mail-services:server:
     ipv4: 10.20.0.10
     publicSsh: false
-    type: cx22
+    type: cx32
     location: fsn1
   muehlbachler-mail-services:simplelogin:
     domain: aliases.email.muehlbachler.io
