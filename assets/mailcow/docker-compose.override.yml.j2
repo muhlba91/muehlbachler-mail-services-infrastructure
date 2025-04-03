@@ -26,6 +26,16 @@ services:
       - traefik.tcp.services.mailcow_https.loadbalancer.server.port=8443
     networks:
       proxy:
+  
+  dovecot-mailcow:
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.dovecot-expunge-trash.schedule: "0 0 3 * * *"
+      ofelia.job-exec.dovecot-expunge-trash.command: "doveadm expunge -A mailbox 'Trash' savedbefore 4w"
+      ofelia.job-exec.dovecot-expunge-trash.tty: "false"
+      ofelia.job-exec.dovecot-expunge-junk.schedule: "0 0 4 * * *"
+      ofelia.job-exec.dovecot-expunge-junk.command: "doveadm expunge -A mailbox 'Junk' savedbefore 4w"
+      ofelia.job-exec.dovecot-expunge-junk.tty: "false"
 
   mailcow-exporter:
     image: ghcr.io/mailcow/prometheus-exporter:2.0.1
