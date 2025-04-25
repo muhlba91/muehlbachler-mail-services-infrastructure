@@ -769,11 +769,11 @@ __metadata:
   linkType: hard
 
 "@pulumi/hcloud@npm:^1.19.1":
-  version: 1.22.0
-  resolution: "@pulumi/hcloud@npm:1.22.0"
+  version: 1.22.1
+  resolution: "@pulumi/hcloud@npm:1.22.1"
   dependencies:
     "@pulumi/pulumi": "npm:^3.142.0"
-  checksum: 10c0/768c399b470f2a003a7e29e238e4f535dc28fa250b90eceb271933a1f1d05af3031950dfc8d4649c0e97f34c0a5fd4c76539e6b3085dd2f276ea10ff8ea51a1d
+  checksum: 10c0/afcc9f88753c5601da200f8f64350f27d1213a58c597b38fac8b31d9a5b9bc69f3c6e3ff479304910fe0e44149725be2fd0d76445fa225c7abf296c2fdbff8e9
   languageName: node
   linkType: hard
 
