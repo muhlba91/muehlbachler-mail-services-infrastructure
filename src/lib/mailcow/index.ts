@@ -240,7 +240,7 @@ export const installMailcow = (
   );
 
   // TODO: restore doesn't work automated - https://github.com/mailcow/mailcow-dockerized/pull/5934
-  const installCommand = mailcowVersion.apply((version) =>
+  const installCommandHash = mailcowVersion.apply((version) =>
     renderTemplate('./assets/mailcow/install.sh.j2', {
       version: version,
       project: getProject(),
@@ -250,18 +250,43 @@ export const installMailcow = (
       },
       dkimSignHeaders: mailConfig.dkimSignHeaders.join(':'),
     }),
+  )
+    .apply((content) =>
+      writeFilePulumiAndUploadToS3(
+        'mailcow_install.sh',
+        Output.create(content),
+        {},
+      ),
+    )
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .apply((_) => getFileHash('./outputs/mailcow_install.sh'));
+  const installFileCopy = installCommandHash.apply(
+    (hash) =>
+      new remote.CopyToRemote(
+        'remote-copy-install-sh',
+        {
+          source: new FileAsset('./outputs/mailcow_install.sh'),
+          remotePath: '/opt/mailcow/install.sh',
+          triggers: [Output.create(hash)],
+          connection: connection,
+        },
+        {
+          dependsOn: [...dependsOn, prepare],
+        },
+      ),
   );
-  const installTask = all([configFileCopy, cronInstall]).apply(
-    ([configCopy, cronInstaller]) =>
+  const installTask = all([installFileCopy, cronInstall]).apply(
+    ([installCopy, cronInstaller]) =>
       new remote.Command(
         'remote-command-install-mailcow',
         {
-          create: installCommand,
-          update: installCommand,
+          create: "bash /opt/mailcow/install.sh",
+          update: "bash /opt/mailcow/install.sh",
           triggers: [
             systemdServiceHash,
             dockerComposeHash,
             configFileHash,
+            installCommandHash,
             mailcowVersion,
           ],
           connection: connection,
@@ -272,7 +297,7 @@ export const installMailcow = (
             prepare,
             systemdServiceCopy,
             dockerComposeCopy,
-            configCopy,
+            installCopy,
             cronInstaller,
           ],
         },
