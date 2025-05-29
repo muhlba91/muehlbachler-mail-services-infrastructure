@@ -240,17 +240,18 @@ export const installMailcow = (
   );
 
   // TODO: restore doesn't work automated - https://github.com/mailcow/mailcow-dockerized/pull/5934
-  const installCommandHash = mailcowVersion.apply((version) =>
-    renderTemplate('./assets/mailcow/install.sh.j2', {
-      version: version,
-      project: getProject(),
-      bucket: {
-        id: backupBucketId,
-        path: BUCKET_PATH,
-      },
-      dkimSignHeaders: mailConfig.dkimSignHeaders.join(':'),
-    }),
-  )
+  const installCommandHash = mailcowVersion
+    .apply((version) =>
+      renderTemplate('./assets/mailcow/install.sh.j2', {
+        version: version,
+        project: getProject(),
+        bucket: {
+          id: backupBucketId,
+          path: BUCKET_PATH,
+        },
+        dkimSignHeaders: mailConfig.dkimSignHeaders.join(':'),
+      }),
+    )
     .apply((content) =>
       writeFilePulumiAndUploadToS3(
         'mailcow_install.sh',
@@ -275,13 +276,13 @@ export const installMailcow = (
         },
       ),
   );
-  const installTask = all([installFileCopy, cronInstall]).apply(
-    ([installCopy, cronInstaller]) =>
+  const installTask = all([installFileCopy, cronInstall, configFileCopy]).apply(
+    ([installCopy, cronInstaller, configCopy]) =>
       new remote.Command(
         'remote-command-install-mailcow',
         {
-          create: "bash /opt/mailcow/install.sh",
-          update: "bash /opt/mailcow/install.sh",
+          create: 'bash /opt/mailcow/install.sh',
+          update: 'bash /opt/mailcow/install.sh',
           triggers: [
             systemdServiceHash,
             dockerComposeHash,
@@ -299,6 +300,7 @@ export const installMailcow = (
             dockerComposeCopy,
             installCopy,
             cronInstaller,
+            configCopy,
           ],
         },
       ),
