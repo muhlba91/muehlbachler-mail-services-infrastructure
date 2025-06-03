@@ -789,11 +789,11 @@ __metadata:
   linkType: hard
 
 "@pulumi/postgresql@npm:^3.11.1":
-  version: 3.15.1
-  resolution: "@pulumi/postgresql@npm:3.15.1"
+  version: 3.15.2
+  resolution: "@pulumi/postgresql@npm:3.15.2"
   dependencies:
     "@pulumi/pulumi": "npm:^3.142.0"
-  checksum: 10c0/36d196f6d8c285cfc3ecd917e5ec004e60662b6b61422327e3352c98c5d51c5190878f044f72f16c7c0d5cb3f30e4d23c59dff48062c4c7f550e47a19a1effca
+  checksum: 10c0/f89f1d76fa8cbfcc7d49cb97f94bfa7522933e921c6d7071289963b7de593ea3fdd74ea964236018426eb2d2e36d47b63e4c271609b8959fb5ab08ec507b326a
   languageName: node
   linkType: hard
 
