@@ -8,9 +8,7 @@
     ],
     "prHourlyLimit": 0,
     "prConcurrentLimit": 0,
-    "baseBranches": [
-        "main"
-    ],
+    "baseBranches": ["main"],
     "enabledManagers": [
         "github-actions",
         "pre-commit",
@@ -19,40 +17,34 @@
         "custom.regex"
     ],
     "github-actions": {
-        "fileMatch": [
-            "^(workflow-templates|\\.github/workflows)/[^/]+\\.ya?ml$",
-            "(^|/)action\\.ya?ml$"
+        "managerFilePatterns": [
+            "/^(workflow-templates|\\.github/workflows)/[^/]+\\.ya?ml$/",
+            "/(^|/)action\\.ya?ml$/"
         ]
     },
     "pre-commit": {
         "enabled": true,
-        "fileMatch": [
-            "(^|/)\\.pre-commit-config\\.ya?ml$"
-        ]
+        "managerFilePatterns": ["/(^|/)\\.pre-commit-config\\.ya?ml$/"]
     },
     "npm": {
-        "fileMatch": [
-            "(^|/)package\\.json$"
-        ],
+        "managerFilePatterns": ["/(^|/)package\\.json$/"],
         "rollbackPrs": true,
         "versioning": "npm"
     },
     "docker-compose": {
-        "fileMatch": [
-            "(^|/)(?:docker-)?compose[^/]*\\.ya?ml$",
-            "(^|/)(?:docker-)?compose[^/]*\\.ya?ml.j2$"
+        "managerFilePatterns": [
+            "/(^|/)(?:docker-)?compose[^/]*\\.ya?ml$/",
+            "/(^|/)(?:docker-)?compose[^/]*\\.ya?ml.j2$/"
         ]
     },
     "customManagers": [
         {
             "customType": "regex",
-            "fileMatch": [
-                "(^|/)docker-compose\\.override\\.ya?ml$",
-                "(^|/)docker-compose\\.override\\.ya?ml\\.j2$"
+            "managerFilePatterns": [
+                "/(^|/)docker-compose\\.override\\.ya?ml$/",
+                "/(^|/)docker-compose\\.override\\.ya?ml\\.j2$/"
             ],
-            "matchStrings": [
-                "#version:\\s+(?<currentValue>\\S+)"
-            ],
+            "matchStrings": ["#version:\\s+(?<currentValue>\\S+)"],
             "depNameTemplate": "mailcow/mailcow-dockerized",
             "versioningTemplate": "regex:^(?<major>\\d+)-(?<minor>\\d+)((?<revision>[a-z]+))?$",
             "datasourceTemplate": "github-releases"
