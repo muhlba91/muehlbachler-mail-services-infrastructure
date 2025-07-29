@@ -53,8 +53,6 @@ jobs:
             github-muehlbachler-mail-services-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
             github-muehlbachler-mail-services-infrastructure/data/aws region | AWS_REGION ;
             github-muehlbachler-mail-services-infrastructure/data/aws identity_role_arn | AWS_IDENTITY_ROLE_ARN ;
-            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_client_id | TS_OAUTH_CLIENT_ID ;
-            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_secret | TS_OAUTH_SECRET ;
             github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN
 
       - uses: pulumi/auth-actions@1c89817aab0c66407723cdef72b05266e7376640 # v1.0.1
@@ -76,12 +74,6 @@ jobs:
       - run: |
           yarn install --immutable
           yarn build
-
-      - uses: tailscale/github-action@84a3f23bb4d843bcf4da6cf824ec1be473daf4de # v3
-        with:
-          oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ env.TS_OAUTH_SECRET }}
-          tags: tag:github-actions
 
       - uses: pulumi/actions@cc7494be991dba0978f7ffafaf995b0449a0998e # v6.5.0
         with:
@@ -135,8 +127,6 @@ jobs:
             github-muehlbachler-mail-services-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
             github-muehlbachler-mail-services-infrastructure/data/aws region | AWS_REGION ;
             github-muehlbachler-mail-services-infrastructure/data/aws identity_role_arn | AWS_IDENTITY_ROLE_ARN ;
-            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_client_id | TS_OAUTH_CLIENT_ID ;
-            github-muehlbachler-mail-services-infrastructure/data/tailscale oauth_secret | TS_OAUTH_SECRET ;
             github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN
 
       - uses: pulumi/auth-actions@1c89817aab0c66407723cdef72b05266e7376640 # v1.0.1
@@ -158,12 +148,6 @@ jobs:
       - run: |
           yarn install --immutable
           yarn build
-
-      - uses: tailscale/github-action@84a3f23bb4d843bcf4da6cf824ec1be473daf4de # v3
-        with:
-          oauth-client-id: ${{ env.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ env.TS_OAUTH_SECRET }}
-          tags: tag:github-actions
 
       - uses: pulumi/actions@cc7494be991dba0978f7ffafaf995b0449a0998e # v6.5.0
         with:
