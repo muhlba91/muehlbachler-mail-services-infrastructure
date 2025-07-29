@@ -59,7 +59,7 @@ config:
       zoneId: muehlbachler-io
   muehlbachler-mail-services:server:
     ipv4: 10.20.0.10
-    publicSsh: false
+    publicSsh: true
     type: cx32
     location: fsn1
   muehlbachler-mail-services:simplelogin:
