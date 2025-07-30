@@ -1,14 +1,9 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        "config:recommended",
-        "helpers:pinGitHubActionDigests",
-        ":dependencyDashboard",
-        ":semanticCommitTypeAll(chore)"
+        "github>muhlba91/renovate-config",
+        "github>muhlba91/renovate-config:automerge(patch)"
     ],
-    "prHourlyLimit": 0,
-    "prConcurrentLimit": 0,
-    "baseBranches": ["main"],
     "enabledManagers": [
         "github-actions",
         "pre-commit",
@@ -16,27 +11,6 @@
         "docker-compose",
         "custom.regex"
     ],
-    "github-actions": {
-        "managerFilePatterns": [
-            "/^(workflow-templates|\\.github/workflows)/[^/]+\\.ya?ml$/",
-            "/(^|/)action\\.ya?ml$/"
-        ]
-    },
-    "pre-commit": {
-        "enabled": true,
-        "managerFilePatterns": ["/(^|/)\\.pre-commit-config\\.ya?ml$/"]
-    },
-    "npm": {
-        "managerFilePatterns": ["/(^|/)package\\.json$/"],
-        "rollbackPrs": true,
-        "versioning": "npm"
-    },
-    "docker-compose": {
-        "managerFilePatterns": [
-            "/(^|/)(?:docker-)?compose[^/]*\\.ya?ml$/",
-            "/(^|/)(?:docker-)?compose[^/]*\\.ya?ml.j2$/"
-        ]
-    },
     "customManagers": [
         {
             "customType": "regex",
@@ -44,7 +18,9 @@
                 "/(^|/)docker-compose\\.override\\.ya?ml$/",
                 "/(^|/)docker-compose\\.override\\.ya?ml\\.j2$/"
             ],
-            "matchStrings": ["#version:\\s+(?<currentValue>\\S+)"],
+            "matchStrings": [
+                "#version:\\s+(?<currentValue>\\S+)"
+            ],
             "depNameTemplate": "mailcow/mailcow-dockerized",
             "versioningTemplate": "regex:^(?<major>\\d+)-(?<minor>\\d+)((?<revision>[a-z]+))?$",
             "datasourceTemplate": "github-releases"
