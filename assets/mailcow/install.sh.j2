@@ -48,4 +48,4 @@ systemctl restart mailcow
 
 # cleanup old images
 sleep 90
-docker image prune --all --force
+docker image prune --all --force || true
