@@ -1,7 +1,7 @@
 ---
 services:
   redis:
-    image: redis:8.0.3-alpine
+    image: redis:8.2.2-alpine
     container_name: roundcube-redis
     restart: unless-stopped
     healthcheck:
@@ -30,7 +30,7 @@ services:
       - /opt/roundcube/config:/var/roundcube/config
   
   nginx:
-    image: nginx:1.29.0-alpine
+    image: nginx:1.29.2-alpine
     container_name: roundcube-nginx
     restart: unless-stopped
     labels:
