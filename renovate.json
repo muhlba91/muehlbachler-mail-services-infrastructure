@@ -20,6 +20,12 @@
         "docker-compose",
         "custom.regex"
     ],
+    "docker-compose": {
+        "managerFilePatterns": [
+            "/(^|/)(?:docker-)?compose[^/]*\\.ya?ml$/",
+            "/(^|/)(?:docker-)?compose[^/]*\\.ya?ml\\.j2$/"
+        ]
+    },
     "customManagers": [
         {
             "customType": "regex",
