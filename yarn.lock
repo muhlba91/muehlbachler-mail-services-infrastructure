@@ -835,11 +835,11 @@ __metadata:
   linkType: hard
 
 "@pulumi/hcloud@npm:^1.19.1":
-  version: 1.25.0
-  resolution: "@pulumi/hcloud@npm:1.25.0"
+  version: 1.26.0
+  resolution: "@pulumi/hcloud@npm:1.26.0"
   dependencies:
     "@pulumi/pulumi": "npm:^3.142.0"
-  checksum: 10c0/ae388203bc6cc0b983e47e0d7c77f49587f064f39de81c4b4c5b76a24c16bba983d0513b5f8f46d185a5fd97707fbd2f67fe574f3fbe93431e2a89aa3ce6743e
+  checksum: 10c0/d6d64b4bc5f1fa96af888ade04d355da802b1256146e9bd47c2845b4a285858212e16d7ca9e54d187aa65a6990f7278d15080c90d28290b85d471d03a2614eac
   languageName: node
   linkType: hard
 
