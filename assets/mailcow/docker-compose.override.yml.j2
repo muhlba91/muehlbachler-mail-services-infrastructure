@@ -38,7 +38,7 @@ services:
       ofelia.job-exec.dovecot-expunge-junk.tty: "false"
 
   mailcow-exporter:
-    image: ghcr.io/mailcow/prometheus-exporter:2.0.1
+    image: ghcr.io/mailcow/prometheus-exporter:2.1.0
     container_name: mailcow-exporter
     restart: unless-stopped
     depends_on:
