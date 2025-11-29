@@ -844,11 +844,11 @@ __metadata:
   linkType: hard
 
 "@pulumi/hcloud@npm:^1.19.1":
-  version: 1.28.0
-  resolution: "@pulumi/hcloud@npm:1.28.0"
+  version: 1.29.0
+  resolution: "@pulumi/hcloud@npm:1.29.0"
   dependencies:
     "@pulumi/pulumi": "npm:^3.142.0"
-  checksum: 10c0/1f437f766e1da05236d4bebb3243e1a8197b5417511872d7cc62c2b9ab7accbb7417ca395e0f9fd003c3cd68a9a679cc51ced5ac8670420402c6e02c69d9ea38
+  checksum: 10c0/12b7326c2fd396601c4c2afaeb54445602a4189c0888a2e777ca37cc676995aa0cfed8bb698b32a112bb9efca2afdf3363da61a7b4b9cd5e71743bbcabd9581a
   languageName: node
   linkType: hard
 
