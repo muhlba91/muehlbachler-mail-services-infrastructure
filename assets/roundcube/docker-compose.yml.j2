@@ -37,14 +37,14 @@ services:
       - traefik.enable=true
       - traefik.docker.network=traefik_proxy
 
-      - traefik.http.routers.roundcube_http.rule=Host(`{{ domain }}`)
+      - traefik.http.routers.roundcube_http.rule=Host(`{{ .domain }}`)
       - traefik.http.routers.roundcube_http.entrypoints=web
       - traefik.http.routers.roundcube_http.service=roundcube_http
       - traefik.http.routers.roundcube_http.middlewares=redirect-to-https
       - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
       - traefik.http.services.roundcube_http.loadbalancer.server.port=80
 
-      - traefik.http.routers.roundcube_https.rule=Host(`{{ domain }}`)
+      - traefik.http.routers.roundcube_https.rule=Host(`{{ .domain }}`)
       - traefik.http.routers.roundcube_https.entrypoints=websecure
       - traefik.http.routers.roundcube_https.service=roundcube_https
       - traefik.http.routers.roundcube_https.tls=true

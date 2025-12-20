@@ -12,7 +12,7 @@ certificatesResolvers:
         resolvers:
           - "8.8.8.8:53"
           - "8.8.4.4:53"
-      email: {{ acmeEmail }}
+      email: {{ .acmeEmail }}
       storage: /etc/certs/acme.json
 
 entryPoints:

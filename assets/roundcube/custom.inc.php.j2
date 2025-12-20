@@ -1,16 +1,16 @@
 <?php
 
-$config['db_dsnw'] = 'pgsql://{{ db.user }}:{{ db.password }}@{{ db.host }}/{{ db.database }}';
+$config['db_dsnw'] = 'pgsql://{{ .db.user }}:{{ .db.password }}@{{ .db.host }}/{{ .db.database }}';
 
-$config['imap_host'] = 'ssl://{{ mailname }}:993';
+$config['imap_host'] = 'ssl://{{ .mailname }}:993';
 $config['imap_auth_type'] = null;
 
-$config['smtp_host'] = 'ssl:///{{ mailname }}:465';
+$config['smtp_host'] = 'ssl:///{{ .mailname }}:465';
 $config['smtp_auth_type'] = null;
 
-$config['smtp_helo_host'] = '{{ domain }}';
+$config['smtp_helo_host'] = '{{ .domain }}';
 
-$config['managesieve_host'] = 'tls://{{ mailname }}:4190';
+$config['managesieve_host'] = 'tls://{{ .mailname }}:4190';
 $config['managesieve_vacation'] = 1;
 
 $config['imap_cache'] = 'redis';

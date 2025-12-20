@@ -7,7 +7,7 @@ cd /opt/simplelogin
 chmod +x /opt/simplelogin/init.sh
 
 # finalize installation
-echo "{{ version }}" > /opt/simplelogin.version
+echo "{{ .version }}" > /opt/simplelogin.version
 
 # restart services
 systemctl daemon-reload

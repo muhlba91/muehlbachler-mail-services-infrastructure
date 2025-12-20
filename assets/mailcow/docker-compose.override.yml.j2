@@ -45,8 +45,8 @@ services:
       postfix-mailcow:
         condition: service_started
     environment:
-      - MAILCOW_EXPORTER_HOST={{ mailname }}
-      - MAILCOW_EXPORTER_API_KEY={{ apiKey }}
+      - MAILCOW_EXPORTER_HOST={{ .mailname }}
+      - MAILCOW_EXPORTER_API_KEY={{ .apiKey }}
     ports:
       - "9099:9099"
     networks:

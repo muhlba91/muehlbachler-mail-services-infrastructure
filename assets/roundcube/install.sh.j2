@@ -4,7 +4,7 @@
 cd /opt/roundcube
 
 # finalize installation
-echo "{{ version }}" > /opt/roundcube.version
+echo "{{ .version }}" > /opt/roundcube.version
 
 # restart services
 systemctl daemon-reload

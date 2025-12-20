@@ -16,11 +16,11 @@ jobs:
     name: Pulumi Preview
     permissions:
       id-token: write
-      contents: write
+      contents: read
     strategy:
-      max-parallel: 12
+      max-parallel: 4
       matrix:
-        node-version: ["24"]
+        go-version: [1.25.x]
 
     steps:
       - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
@@ -31,12 +31,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: |
-          corepack enable
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
         with:
-          node-version: ${{ matrix.node-version }}
+          go-version: "${{ matrix.go-version }}"
 
       - uses: hashicorp/vault-action@4c06c5ccf5c0761b6029f56cfb1dcf5565918a3b # v3.4.0
         id: import-secrets
@@ -70,10 +67,6 @@ jobs:
         with:
           role-to-assume: ${{ env.AWS_IDENTITY_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-
-      - run: |
-          yarn install --immutable
-          yarn build
 
       - uses: pulumi/actions@8582a9e8cc630786854029b4e09281acd6794b58 # v6.6.1
         with:
@@ -88,13 +81,13 @@ jobs:
     name: Pulumi Deploy
     permissions:
       id-token: write
-      contents: write
+      contents: read
     needs:
       - preview
     strategy:
-      max-parallel: 12
+      max-parallel: 4
       matrix:
-        node-version: ["24"]
+        go-version: [1.25.x]
 
     steps:
       - uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
@@ -105,12 +98,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: |
-          corepack enable
-
-      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
         with:
-          node-version: ${{ matrix.node-version }}
+          go-version: "${{ matrix.go-version }}"
 
       - uses: hashicorp/vault-action@4c06c5ccf5c0761b6029f56cfb1dcf5565918a3b # v3.4.0
         id: import-secrets
@@ -144,10 +134,6 @@ jobs:
         with:
           role-to-assume: ${{ env.AWS_IDENTITY_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-
-      - run: |
-          yarn install --immutable
-          yarn build
 
       - uses: pulumi/actions@8582a9e8cc630786854029b4e09281acd6794b58 # v6.6.1
         with:

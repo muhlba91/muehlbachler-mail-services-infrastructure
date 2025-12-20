@@ -22,7 +22,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install --yes docker-ce docker-ce-cli con
 
 # daemon.json
 cat << EOF > /etc/docker/daemon.json
-{{ daemonJson }}
+{{ .daemonJson }}
 EOF
 
 # start docker

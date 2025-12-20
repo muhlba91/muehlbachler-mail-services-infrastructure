@@ -5,7 +5,7 @@
 # Default admin user is "admin"
 # Default password is "moohoo"
 
-MAILCOW_HOSTNAME={{ mailname }}
+MAILCOW_HOSTNAME={{ .mailname }}
 
 # Password hash algorithm
 # Only certain password hash algorithm are supported. For a fully list of supported schemes,
@@ -21,14 +21,14 @@ DBUSER=mailcow
 
 # Please use long, random alphanumeric strings (A-Za-z0-9)
 
-DBPASS={{ db.auth.user }}
-DBROOT={{ db.auth.root }}
+DBPASS={{ .db.auth.user }}
+DBROOT={{ .db.auth.root }}
 
 # ------------------------------
 # REDIS configuration
 # ------------------------------
 
-REDISPASS={{ redis.password }}
+REDISPASS={{ .redis.password }}
 
 # ------------------------------
 # HTTP/S Bindings
@@ -242,11 +242,11 @@ IPV6_NETWORK=fd4d:6169:6c63:6f77::/64
 
 # Use this IPv4 for outgoing connections (SNAT)
 
-#SNAT_TO_SOURCE={{ ip.v4 }}
+#SNAT_TO_SOURCE={{ .ip.v4 }}
 
 # Use this IPv6 for outgoing connections (SNAT)
 
-#SNAT6_TO_SOURCE={{ ip.v6 }}
+#SNAT6_TO_SOURCE={{ .ip.v6 }}
 
 # Create or override an API key for the web UI
 # You _must_ define API_ALLOW_FROM, which is a comma separated list of IPs
@@ -255,8 +255,8 @@ IPV6_NETWORK=fd4d:6169:6c63:6f77::/64
 # Allowed chars for API_KEY and API_KEY_READ_ONLY: a-z, A-Z, 0-9, -
 # You can define API_KEY and/or API_KEY_READ_ONLY
 
-API_KEY={{ api.readWrite }}
-API_KEY_READ_ONLY={{ api.read }}
+API_KEY={{ .api.readWrite }}
+API_KEY_READ_ONLY={{ .api.read }}
 API_ALLOW_FROM=127.0.0.0/8,::1,10.0.0.0/8,172.16.0.0/12
 
 # mail_home is ~/Maildir
@@ -278,7 +278,7 @@ DOVECOT_MASTER_PASS=
 # This value is only used on first order!
 # Setting it at a later point will require the following steps:
 # https://docs.mailcow.email/troubleshooting/debug-reset_tls/
-ACME_CONTACT={{ acme.email}}
+ACME_CONTACT={{ .acme.email}}
 
 # WebAuthn device manufacturer verification
 # After setting WEBAUTHN_ONLY_TRUSTED_VENDORS=y only devices from trusted manufacturers are allowed
