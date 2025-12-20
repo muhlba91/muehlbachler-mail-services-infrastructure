@@ -6,6 +6,7 @@ ignore:
   - node_modules/
   - .github/
   - .pre-commit-config.yaml
+  - .golangci.yml
 
 rules:
   line-length:
