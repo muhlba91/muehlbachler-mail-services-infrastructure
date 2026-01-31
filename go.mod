@@ -8,7 +8,7 @@ require (
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-hcloud/sdk v1.32.0
 	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.16.1
-	github.com/pulumi/pulumi-tls/sdk/v5 v5.2.3
+	github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0
 	github.com/pulumi/pulumi/sdk/v3 v3.218.0
 	github.com/stretchr/testify v1.11.1
 )
