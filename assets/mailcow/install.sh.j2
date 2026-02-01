@@ -9,8 +9,10 @@ if [ -f /opt/mailcow.version ]; then
     /bin/mailcow-backup
 
     # run update script
-    ./update.sh --skip-start --force # downloads the first time it runs
-    ./update.sh --skip-start --force
+    if [ "$(head -n 1 /opt/mailcow.version)" != "{{ .version }}" ]; then
+        ./update.sh --skip-start --force # downloads the first time it runs
+        ./update.sh --skip-start --force
+    fi
 else
     # start services
     systemctl daemon-reload
