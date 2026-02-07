@@ -15,6 +15,7 @@ import (
 	"github.com/muhlba91/pulumi-shared-library/pkg/lib/tls"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/dir"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
+	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
 	tlsProv "github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/docker"
@@ -182,7 +183,7 @@ func main() {
 // ctx: The Pulumi context.
 // sshKey: The SSH private key resource.
 func writeOutputFiles(ctx *pulumi.Context, sshKey *tlsProv.PrivateKey) {
-	storage.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
 		BucketID:    config.BucketID,
 		BucketPath:  fmt.Sprintf("%s/", config.BucketPath),
 		OutputPath:  "./outputs",

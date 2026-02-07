@@ -12,6 +12,7 @@ import (
 	"github.com/muhlba91/pulumi-shared-library/pkg/model/postgresql"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
+	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -61,7 +62,7 @@ func createConfig(ctx *pulumi.Context,
 		}).(pulumi.StringOutput)
 		return dc
 	}).(pulumi.StringOutput)
-	configFileHash, _ := storage.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
 		Name:       "roundcube_custom.inc.php",
 		Content:    configFile,
 		OutputPath: "./outputs",

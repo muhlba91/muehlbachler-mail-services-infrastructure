@@ -10,6 +10,7 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/mail"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
+	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -34,7 +35,7 @@ func postinstall(ctx *pulumi.Context,
 		})
 		return pp
 	}).(pulumi.StringOutput)
-	passwordPluginHash := storage.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	passwordPluginHash := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
 		Name:       "roundcube_password.inc.php",
 		Content:    passwordPlugin,
 		OutputPath: "./outputs",

@@ -11,6 +11,7 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/mail"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
+	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -67,7 +68,7 @@ func createConfig(ctx *pulumi.Context,
 		})
 		return dc
 	}).(pulumi.StringOutput)
-	configFileHash, _ := storage.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
 		Name:       "mailcow_mailcow.conf",
 		Content:    configFile,
 		OutputPath: "./outputs",

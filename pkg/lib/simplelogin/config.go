@@ -17,6 +17,7 @@ import (
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/aws/region"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
+	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -96,7 +97,7 @@ func createConfig(ctx *pulumi.Context,
 		}).(pulumi.StringOutput)
 		return eFile
 	}).(pulumi.StringOutput)
-	envFileHash, _ := storage.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	envFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
 		Name:       "simplelogin_env",
 		Content:    envFile,
 		OutputPath: "./outputs",
