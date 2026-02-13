@@ -3,7 +3,7 @@ module github.com/muhlba91/muehlbachler-mail-services-infrastructure
 go 1.25.3
 
 require (
-	github.com/muhlba91/pulumi-shared-library v0.0.0-20260212092446-8f8fb978bfc7
+	github.com/muhlba91/pulumi-shared-library v0.0.0-20260213173742-4b6a2b71f2bb
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.19.0
 	github.com/pulumi/pulumi-command/sdk v1.1.3
 	github.com/pulumi/pulumi-hcloud/sdk v1.32.0
