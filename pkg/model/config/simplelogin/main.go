@@ -29,5 +29,6 @@ type OIDCConfig struct {
 	// ClientID defines the client ID configuration.
 	ClientID *string `yaml:"clientId,omitempty"`
 	// ClientSecret defines the client secret configuration.
+	//nolint:gosec // This is not a hardcoded secret, it's a configuration field.
 	ClientSecret *string `yaml:"clientSecret,omitempty"`
 }
