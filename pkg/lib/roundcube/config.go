@@ -62,7 +62,7 @@ func createConfig(ctx *pulumi.Context,
 		}).(pulumi.StringOutput)
 		return dc
 	}).(pulumi.StringOutput)
-	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
 		Name:       "roundcube_custom.inc.php",
 		Content:    configFile,
 		OutputPath: "./outputs",

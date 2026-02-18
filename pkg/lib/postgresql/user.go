@@ -42,7 +42,7 @@ func createUsers(
 				})
 				return string(val)
 			}).(pulumi.StringOutput)
-			_, _ = secret.Write(ctx, &secret.WriteArgs{
+			_, _ = secret.Create(ctx, &secret.CreateOptions{
 				Path:  config.GlobalName,
 				Key:   fmt.Sprintf("postgresql-user-%s", username),
 				Value: secretValue,

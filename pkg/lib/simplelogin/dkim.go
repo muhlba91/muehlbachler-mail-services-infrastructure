@@ -84,7 +84,7 @@ func createDKIMKey(
 		})
 		return string(value)
 	}).(pulumi.StringOutput)
-	_, sErr := secret.Write(ctx, &secret.WriteArgs{
+	_, sErr := secret.Create(ctx, &secret.CreateOptions{
 		Path:  config.GlobalName,
 		Key:   "simplelogin-dkim",
 		Value: secretValue,

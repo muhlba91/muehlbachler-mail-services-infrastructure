@@ -74,7 +74,7 @@ func CreateSecrets(ctx *pulumi.Context) (*mcModel.Secrets, error) {
 		})
 		return string(secret)
 	}).(pulumi.StringOutput)
-	_, _sErr := secret.Write(ctx, &secret.WriteArgs{
+	_, _sErr := secret.Create(ctx, &secret.CreateOptions{
 		Path:  config.GlobalName,
 		Key:   "mailcow-api",
 		Value: mailcowAPIKeysSecret,

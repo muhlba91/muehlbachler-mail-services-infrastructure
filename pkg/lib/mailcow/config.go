@@ -68,7 +68,7 @@ func createConfig(ctx *pulumi.Context,
 		})
 		return dc
 	}).(pulumi.StringOutput)
-	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
 		Name:       "mailcow_mailcow.conf",
 		Content:    configFile,
 		OutputPath: "./outputs",

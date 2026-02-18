@@ -39,7 +39,7 @@ func createDatabases(
 				secretValue, _ := json.Marshal(map[string]any{
 					"name": db,
 				})
-				_, _ = secret.Write(ctx, &secret.WriteArgs{
+				_, _ = secret.Create(ctx, &secret.CreateOptions{
 					Path:  config.GlobalName,
 					Key:   fmt.Sprintf("postgresql-database-%s", db),
 					Value: pulumi.String(secretValue),

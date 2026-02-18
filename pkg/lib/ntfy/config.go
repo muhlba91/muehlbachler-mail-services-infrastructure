@@ -25,7 +25,7 @@ func createConfig(ctx *pulumi.Context,
 	configFile, _ := template.Render("./assets/ntfy/server.yml.j2", map[string]any{
 		"domain": ntfyConfig.Domain.Name,
 	})
-	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
 		Name:       "ntfy_server.yml",
 		Content:    pulumi.String(configFile),
 		OutputPath: "./outputs",

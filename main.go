@@ -183,7 +183,7 @@ func main() {
 // ctx: The Pulumi context.
 // sshKey: The SSH private key resource.
 func writeOutputFiles(ctx *pulumi.Context, sshKey *tlsProv.PrivateKey) {
-	google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
 		BucketID:    config.BucketID,
 		BucketPath:  fmt.Sprintf("%s/", config.BucketPath),
 		OutputPath:  "./outputs",

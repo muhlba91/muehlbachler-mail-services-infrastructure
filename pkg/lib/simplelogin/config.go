@@ -97,7 +97,7 @@ func createConfig(ctx *pulumi.Context,
 		}).(pulumi.StringOutput)
 		return eFile
 	}).(pulumi.StringOutput)
-	envFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	envFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
 		Name:       "simplelogin_env",
 		Content:    envFile,
 		OutputPath: "./outputs",

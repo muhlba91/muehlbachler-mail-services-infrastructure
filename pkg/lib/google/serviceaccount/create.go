@@ -15,7 +15,7 @@ import (
 // Create a Google Cloud Service Account with necessary IAM roles.
 // ctx: Pulumi context for resource management.
 func Create(ctx *pulumi.Context, dnsConfig *dns.Config) (*gmodel.User, error) {
-	iam, err := slServiceAccount.CreateServiceAccountUser(ctx, &slServiceAccount.CreateServiceAccountUserArgs{
+	iam, err := slServiceAccount.CreateServiceAccountUser(ctx, &slServiceAccount.CreateOptions{
 		Name: fmt.Sprintf("%s-%s", config.GlobalName, config.Environment),
 	})
 	if err != nil {
@@ -23,18 +23,18 @@ func Create(ctx *pulumi.Context, dnsConfig *dns.Config) (*gmodel.User, error) {
 	}
 
 	iam.ServiceAccount.Email.ApplyT(func(email string) error {
-		_, _ = gcsIam.CreateIAMMember(ctx, &gcsIam.MemberArgs{
+		_, _ = gcsIam.CreateIAMMember(ctx, &gcsIam.MemberOptions{
 			BucketID: config.BackupBucketID,
 			Member:   fmt.Sprintf("serviceAccount:%s", email),
 			Role:     "roles/storage.objectAdmin",
 		})
-		_, _ = gcsIam.CreateIAMMember(ctx, &gcsIam.MemberArgs{
+		_, _ = gcsIam.CreateIAMMember(ctx, &gcsIam.MemberOptions{
 			BucketID: config.BackupBucketID,
 			Member:   fmt.Sprintf("serviceAccount:%s", email),
 			Role:     "roles/storage.legacyBucketReader",
 		})
 
-		_, _ = role.CreateMember(ctx, fmt.Sprintf("%s-dns-admin", config.GlobalNameShort), &role.MemberArgs{
+		_, _ = role.CreateMember(ctx, fmt.Sprintf("%s-dns-admin", config.GlobalNameShort), &role.MemberOptions{
 			Member:  pulumi.Sprintf("serviceAccount:%s", email),
 			Roles:   []string{"roles/dns.admin"},
 			Project: pulumi.String(*dnsConfig.Project),

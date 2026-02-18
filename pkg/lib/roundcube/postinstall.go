@@ -35,7 +35,7 @@ func postinstall(ctx *pulumi.Context,
 		})
 		return pp
 	}).(pulumi.StringOutput)
-	passwordPluginHash := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadArgs{
+	passwordPluginHash := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
 		Name:       "roundcube_password.inc.php",
 		Content:    passwordPlugin,
 		OutputPath: "./outputs",
