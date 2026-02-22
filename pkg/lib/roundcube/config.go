@@ -8,11 +8,10 @@ import (
 	mailConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/mail"
 	rcConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/roundcube"
 	psqlModel "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/postgresql"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/file"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/mail"
 	"github.com/muhlba91/pulumi-shared-library/pkg/model/postgresql"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
+	fileUtil "github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -30,7 +29,7 @@ func createConfig(ctx *pulumi.Context,
 	mailConfig *mailConf.Config,
 	opts ...pulumi.ResourceOption,
 ) (*remote.CopyToRemote, pulumi.Output, pulumi.StringOutput) {
-	nginxConfHash, _ := file.Hash("./assets/roundcube/nginx.conf")
+	nginxConfHash, _ := fileUtil.Hash("./assets/roundcube/nginx.conf")
 	nginxConfCopy, _ := remote.NewCopyToRemote(
 		ctx,
 		"remote-copy-roundcube-nginx",
@@ -62,16 +61,9 @@ func createConfig(ctx *pulumi.Context,
 		}).(pulumi.StringOutput)
 		return dc
 	}).(pulumi.StringOutput)
-	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
-		Name:       "roundcube_custom.inc.php",
-		Content:    configFile,
-		OutputPath: "./outputs",
-		BucketID:   config.BucketID,
-		BucketPath: config.BucketPath,
-		Labels:     config.CommonLabels(),
-	}).
+	configFileHash, _ := file.WriteAndUpload(ctx, "roundcube_custom.inc.php", configFile).
 		ApplyT(func(_ any) string {
-			hash, _ := file.Hash("./outputs/roundcube_custom.inc.php")
+			hash, _ := fileUtil.Hash("./outputs/roundcube_custom.inc.php")
 			return *hash
 		}).(pulumi.StringOutput)
 	configFileCopy := configFileHash.ApplyT(func(_ string) pulumi.ResourceOption {

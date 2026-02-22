@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
@@ -12,11 +11,9 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/postgresql"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/roundcube"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/simplelogin"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/lib/tls"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/dir"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
-	tlsProv "github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/docker"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/gcloud"
@@ -170,27 +167,13 @@ func main() {
 		}
 
 		// write output files
-		writeOutputFiles(ctx, sshKey)
+		//nolint:mnd // 0o600 is the correct permission for private keys
+		file.WriteAndUpload(ctx, "ssh.key", sshKey.PrivateKeyPem, 0o600)
 
 		// outputs
 		exportPulumiOutputs(ctx, instance, dkim)
 
 		return nil
-	})
-}
-
-// writeOutputFiles writes the SSH key configuration files to the specified storage.
-// ctx: The Pulumi context.
-// sshKey: The SSH private key resource.
-func writeOutputFiles(ctx *pulumi.Context, sshKey *tlsProv.PrivateKey) {
-	google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
-		BucketID:    config.BucketID,
-		BucketPath:  fmt.Sprintf("%s/", config.BucketPath),
-		OutputPath:  "./outputs",
-		Name:        "ssh.key",
-		Content:     sshKey.PrivateKeyPem,
-		Labels:      config.CommonLabels(),
-		Permissions: []os.FileMode{0o600},
 	})
 }
 

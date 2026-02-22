@@ -11,13 +11,12 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/server"
 	simpleloginConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/simplelogin"
 	psqlModel "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/postgresql"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/lib/aws/s3/bucket"
 	"github.com/muhlba91/pulumi-shared-library/pkg/lib/random"
 	"github.com/muhlba91/pulumi-shared-library/pkg/model/postgresql"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/aws/region"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
+	fileUtil "github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -97,16 +96,9 @@ func createConfig(ctx *pulumi.Context,
 		}).(pulumi.StringOutput)
 		return eFile
 	}).(pulumi.StringOutput)
-	envFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
-		Name:       "simplelogin_env",
-		Content:    envFile,
-		OutputPath: "./outputs",
-		BucketID:   config.BucketID,
-		BucketPath: config.BucketPath,
-		Labels:     config.CommonLabels(),
-	}).
+	envFileHash, _ := file.WriteAndUpload(ctx, "simplelogin_env", envFile).
 		ApplyT(func(_ any) string {
-			hash, _ := file.Hash("./outputs/simplelogin_env")
+			hash, _ := fileUtil.Hash("./outputs/simplelogin_env")
 			return *hash
 		}).(pulumi.StringOutput)
 	envFileCopy := envFileHash.ApplyT(func(_ string) pulumi.ResourceOption {

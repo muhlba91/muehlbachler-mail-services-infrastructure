@@ -4,14 +4,12 @@ import (
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
-	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/config"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/dns"
 	mailConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/mail"
 	mcModel "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/mailcow"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/file"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/mail"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
+	fileUtil "github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -68,16 +66,9 @@ func createConfig(ctx *pulumi.Context,
 		})
 		return dc
 	}).(pulumi.StringOutput)
-	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
-		Name:       "mailcow_mailcow.conf",
-		Content:    configFile,
-		OutputPath: "./outputs",
-		BucketID:   config.BucketID,
-		BucketPath: config.BucketPath,
-		Labels:     config.CommonLabels(),
-	}).
+	configFileHash, _ := file.WriteAndUpload(ctx, "mailcow_mailcow.conf", configFile).
 		ApplyT(func(_ any) string {
-			hash, _ := file.Hash("./outputs/mailcow_mailcow.conf")
+			hash, _ := fileUtil.Hash("./outputs/mailcow_mailcow.conf")
 			return *hash
 		}).(pulumi.StringOutput)
 	configFileCopy := configFileHash.ApplyT(func(_ string) pulumi.ResourceOption {

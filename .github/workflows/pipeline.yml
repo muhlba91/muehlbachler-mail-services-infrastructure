@@ -50,7 +50,13 @@ jobs:
             github-muehlbachler-mail-services-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
             github-muehlbachler-mail-services-infrastructure/data/aws region | AWS_REGION ;
             github-muehlbachler-mail-services-infrastructure/data/aws identity_role_arn | AWS_IDENTITY_ROLE_ARN ;
-            github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN
+            github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway organization_id | SCW_ORGANIZATION_ID ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway project_id | SCW_PROJECT_ID ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway region | SCW_DEFAULT_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway zone | SCW_DEFAULT_ZONE ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway access_key | SCW_ACCESS_KEY ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway secret_key | SCW_SECRET_KEY
 
       - uses: pulumi/auth-actions@1c89817aab0c66407723cdef72b05266e7376640 # v1.0.1
         with:
@@ -117,7 +123,13 @@ jobs:
             github-muehlbachler-mail-services-infrastructure/data/google-cloud ci_service_account | GOOGLE_WORKLOAD_IDENTITY_SERVICE_ACCOUNT ;
             github-muehlbachler-mail-services-infrastructure/data/aws region | AWS_REGION ;
             github-muehlbachler-mail-services-infrastructure/data/aws identity_role_arn | AWS_IDENTITY_ROLE_ARN ;
-            github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN
+            github-muehlbachler-mail-services-infrastructure/data/hetzner token | HCLOUD_TOKEN ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway organization_id | SCW_ORGANIZATION_ID ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway project_id | SCW_PROJECT_ID ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway region | SCW_DEFAULT_REGION ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway zone | SCW_DEFAULT_ZONE ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway access_key | SCW_ACCESS_KEY ;
+            github-muehlbachler-mail-services-infrastructure/data/scaleway secret_key | SCW_SECRET_KEY
 
       - uses: pulumi/auth-actions@1c89817aab0c66407723cdef72b05266e7376640 # v1.0.1
         with:

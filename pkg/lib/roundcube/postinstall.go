@@ -4,13 +4,11 @@ import (
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
-	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/config"
 	mailConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/mail"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/file"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/install"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/mail"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
+	fileUtil "github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -35,16 +33,9 @@ func postinstall(ctx *pulumi.Context,
 		})
 		return pp
 	}).(pulumi.StringOutput)
-	passwordPluginHash := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
-		Name:       "roundcube_password.inc.php",
-		Content:    passwordPlugin,
-		OutputPath: "./outputs",
-		BucketID:   config.BucketID,
-		BucketPath: config.BucketPath,
-		Labels:     config.CommonLabels(),
-	}).
+	passwordPluginHash := file.WriteAndUpload(ctx, "roundcube_password.inc.php", passwordPlugin).
 		ApplyT(func(_ any) string {
-			hash, _ := file.Hash("./outputs/roundcube_password.inc.php")
+			hash, _ := fileUtil.Hash("./outputs/roundcube_password.inc.php")
 			return *hash
 		})
 	passwordPluginCopy := installTask.ApplyT(func(install any) pulumi.ResourceOption {

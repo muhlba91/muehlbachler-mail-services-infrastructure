@@ -4,11 +4,9 @@ import (
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
-	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/config"
 	ntfyConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/ntfy"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/storage/google"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/file"
+	fileUtil "github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -25,16 +23,9 @@ func createConfig(ctx *pulumi.Context,
 	configFile, _ := template.Render("./assets/ntfy/server.yml.j2", map[string]any{
 		"domain": ntfyConfig.Domain.Name,
 	})
-	configFileHash, _ := google.WriteFileAndUpload(ctx, &storage.WriteFileAndUploadOptions{
-		Name:       "ntfy_server.yml",
-		Content:    pulumi.String(configFile),
-		OutputPath: "./outputs",
-		BucketID:   config.BucketID,
-		BucketPath: config.BucketPath,
-		Labels:     config.CommonLabels(),
-	}).
+	configFileHash, _ := file.WriteAndUpload(ctx, "ntfy_server.yml", pulumi.String(configFile)).
 		ApplyT(func(_ any) string {
-			hash, _ := file.Hash("./outputs/ntfy_server.yml")
+			hash, _ := fileUtil.Hash("./outputs/ntfy_server.yml")
 			return *hash
 		}).(pulumi.StringOutput)
 	configFileCopy := configFileHash.ApplyT(func(_ string) pulumi.ResourceOption {
