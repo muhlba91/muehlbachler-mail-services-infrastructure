@@ -77,3 +77,7 @@ config:
     domain:
       name: notify.infrastructure.muehlbachler.io
       zoneId: muehlbachler-io
+  muehlbachler-mail-services:scaleway:
+    project: d3291e99-319b-43db-9703-b67dc3e10cbb
+    dnsProject: bc87ca3f-e096-46cc-b849-fef5cb361511
+    organizationID: 2535e3b0-5c19-476b-8c0b-8a2a5bfac7c3

@@ -10,6 +10,8 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/ntfy"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/postgresql"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/roundcube"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/scaleway"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/scaleway/application"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/simplelogin"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/lib/tls"
@@ -33,7 +35,7 @@ func main() {
 		}
 
 		// configuration
-		dnsConfig, networkConfig, serverConfig, mailConfig, simpleloginConfig, roundcubeConfig, ntfyConfig, databaseConfig, err := config.LoadConfig(
+		dnsConfig, scalewayConfig, networkConfig, serverConfig, mailConfig, simpleloginConfig, roundcubeConfig, ntfyConfig, databaseConfig, err := config.LoadConfig(
 			ctx,
 		)
 		if err != nil {
@@ -86,6 +88,24 @@ func main() {
 			return gcErr
 		}
 		dependsOn = append(dependsOn, gcloudInstall)
+
+		// scaleway
+		scwApplication, scwaErr := application.Create(ctx, scalewayConfig)
+		if scwaErr != nil {
+			return scwaErr
+		}
+		scalewayInstall, scwErr := scaleway.Install(
+			ctx,
+			instance.SSHIPv4,
+			sshKey.PrivateKeyPem,
+			scwApplication,
+			scalewayConfig,
+			pulumi.DependsOn(dependsOn),
+		)
+		if scwErr != nil {
+			return scwErr
+		}
+		dependsOn = append(dependsOn, scalewayInstall)
 
 		// traefik
 		traefikInstall, tErr := traefik.Install(

@@ -12,6 +12,7 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/network"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/ntfy"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/roundcube"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/scaleway"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/server"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/simplelogin"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/postgresql"
@@ -27,6 +28,8 @@ var (
 	GlobalNameShort = "mail"
 	// AWSDefaultRegion is the default AWS region for deployments.
 	AWSDefaultRegion = "eu-west-1"
+	// ScalewayDefaultRegion is the default Scaleway region for deployments.
+	ScalewayDefaultRegion = "fr-par"
 	// BucketPath is the path within the buckets for this project.
 	BucketPath string
 	// BucketID is the ID of the main storage bucket.
@@ -41,7 +44,7 @@ var (
 // ctx: The Pulumi context.
 func LoadConfig(
 	ctx *pulumi.Context,
-) (*dns.Config, *network.Config, *server.Config, *mail.Config, *simplelogin.Config, *roundcube.Config, *ntfy.Config, *database.Config, error) {
+) (*dns.Config, *scaleway.Config, *network.Config, *server.Config, *mail.Config, *simplelogin.Config, *roundcube.Config, *ntfy.Config, *database.Config, error) {
 	Environment = ctx.Stack()
 
 	cfg := config.New(ctx, "")
@@ -52,6 +55,9 @@ func LoadConfig(
 
 	var dnsConfig dns.Config
 	cfg.RequireObject("dns", &dnsConfig)
+
+	var scalewayConfig scaleway.Config
+	cfg.RequireObject("scaleway", &scalewayConfig)
 
 	var networkConfig network.Config
 	cfg.RequireObject("network", &networkConfig)
@@ -80,7 +86,7 @@ func LoadConfig(
 		nil,
 	)
 	if sErr != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, sErr
+		return nil, nil, nil, nil, nil, nil, nil, nil, nil, sErr
 	}
 	sharedServicesStackAws := sharedServicesStack.GetOutput(pulumi.String("aws"))
 	psqlConfig, _ := sharedServicesStackAws.ApplyT(func(awsOutput any) *postgresql.Config {
@@ -99,7 +105,7 @@ func LoadConfig(
 	}).(pulumi.AnyOutput)
 	PostgresqlConfig = &psqlConfig
 
-	return &dnsConfig, &networkConfig, &serverConfig, &mailConfig, &simpleloginConfig, &roundcubeConfig, &ntfyConfig, &databaseConfig, nil
+	return &dnsConfig, &scalewayConfig, &networkConfig, &serverConfig, &mailConfig, &simpleloginConfig, &roundcubeConfig, &ntfyConfig, &databaseConfig, nil
 }
 
 // CommonLabels returns a map of common labels to be used across resources.

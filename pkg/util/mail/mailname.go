@@ -1,4 +1,4 @@
-//nolint:revive // This package is not intended to be used as a library, so we can ignore the revive linter warnings.
+//nolint:revive // package name is fine as is
 package mail
 
 import "fmt"

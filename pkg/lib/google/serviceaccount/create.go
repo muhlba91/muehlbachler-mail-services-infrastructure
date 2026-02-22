@@ -14,6 +14,7 @@ import (
 
 // Create a Google Cloud Service Account with necessary IAM roles.
 // ctx: Pulumi context for resource management.
+// dnsConfig: DNS configuration containing project information for IAM role assignment.
 func Create(ctx *pulumi.Context, dnsConfig *dns.Config) (*gmodel.User, error) {
 	iam, err := slServiceAccount.CreateServiceAccountUser(ctx, &slServiceAccount.CreateOptions{
 		Name: fmt.Sprintf("%s-%s", config.GlobalName, config.Environment),
