@@ -9,7 +9,6 @@ import (
 	mailConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/mail"
 	ntfyConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/ntfy"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/install"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/google/project"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
@@ -82,7 +81,6 @@ func Install(ctx *pulumi.Context,
 	installFn, _ := ntfyVersion.ApplyT(func(version string) string {
 		ic, _ := template.Render("./assets/ntfy/install.sh.j2", map[string]any{
 			"version": version,
-			"project": project.GetOrDefault(ctx, nil),
 			"bucket": map[string]string{
 				"id":   config.BackupBucketID,
 				"path": config.BackupBucketPath,

@@ -5,7 +5,6 @@ import (
 
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/config"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
-	"github.com/muhlba91/pulumi-shared-library/pkg/util/google/project"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -25,7 +24,6 @@ func Cron(
 	backupFile, dcErr := template.Render(
 		fmt.Sprintf("./assets/%s/cron/%s-backup.j2", name, name),
 		map[string]any{
-			"project": project.GetOrDefault(ctx, nil),
 			"bucket": map[string]string{
 				"id":   config.BackupBucketID,
 				"path": config.BackupBucketPath,
