@@ -1,4 +1,4 @@
 #!/bin/sh
 
-# upload data to google cloud storage
-GOOGLE_APPLICATION_CREDENTIALS=/opt/google/credentials.json CLOUDSDK_CORE_PROJECT={{ .project }} gcloud storage rsync -r /opt/ntfy/data/ gs://{{ .bucket.id }}/{{ .bucket.path }}/backup/ --delete-unmatched-destination-objects || true
+# upload data to scaleway
+rclone --config /opt/scaleway/rclone.conf sync -P /opt/ntfy/data/ scaleway:{{ .bucket.id }}/{{ .bucket.path }}/ntfy/ || true

@@ -27,7 +27,8 @@ func Create(ctx *pulumi.Context, scalewayConfig *scaleway.Config) (*smodel.Appli
 	resourceName := fmt.Sprintf("%s-%s", config.GlobalName, config.Environment)
 
 	app, err := slApplication.CreateApplication(ctx, &slApplication.CreateOptions{
-		Name: resourceName,
+		Name:             resourceName,
+		DefaultProjectID: pulumi.StringPtrFromPtr(scalewayConfig.Project),
 	})
 	if err != nil {
 		return nil, err

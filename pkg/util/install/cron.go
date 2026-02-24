@@ -28,7 +28,7 @@ func Cron(
 			"project": project.GetOrDefault(ctx, nil),
 			"bucket": map[string]string{
 				"id":   config.BackupBucketID,
-				"path": config.BucketPath,
+				"path": config.BackupBucketPath,
 			},
 		},
 	)

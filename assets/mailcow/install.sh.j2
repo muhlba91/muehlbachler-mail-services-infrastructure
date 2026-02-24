@@ -24,7 +24,7 @@ else
 
     # restore from backup, if exists
     set +e
-    GOOGLE_APPLICATION_CREDENTIALS=/opt/google/credentials.json CLOUDSDK_CORE_PROJECT={{ .project }} gcloud storage cp -r gs://{{ .bucket.id }}/{{ .bucket.path }}/backup/* /opt/backup/
+    rclone --config /opt/scaleway/rclone.conf sync -P scaleway:{{ .bucket.id }}/{{ .bucket.path }}/mailcow/ /opt/backup/
     backupNumber=`ls -d1 /opt/backup/mailcow/mailcow-*/ | wc -l | tr -d ' '`
     MAILCOW_BACKUP_LOCATION=/opt/backup/mailcow THREADS=4 /opt/mailcow/helper-scripts/backup_and_restore.sh restore << EOF
 ${backupNumber}

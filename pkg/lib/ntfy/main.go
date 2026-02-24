@@ -85,7 +85,7 @@ func Install(ctx *pulumi.Context,
 			"project": project.GetOrDefault(ctx, nil),
 			"bucket": map[string]string{
 				"id":   config.BackupBucketID,
-				"path": config.BucketPath,
+				"path": config.BackupBucketPath,
 			},
 		})
 		return ic

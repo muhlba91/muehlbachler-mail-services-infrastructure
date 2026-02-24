@@ -40,14 +40,14 @@ func Install(
 		return nil, prepErr
 	}
 
-	credentials, _ := pulumi.All(application.Key.AccessKey, application.Key.SecretKey).ApplyT(func(args []any) string {
+	rclone, _ := pulumi.All(application.Key.AccessKey, application.Key.SecretKey).ApplyT(func(args []any) string {
 		accessKey, ok1 := args[0].(string)
 		secretKey, ok2 := args[1].(string)
 		if !ok1 || !ok2 {
 			log.Error().Msg("[scaleway][install] failed to cast application keys to string")
 		}
 
-		tpl, tErr := template.Render("./assets/scaleway/credentials.env.j2", map[string]string{
+		tpl, tErr := template.Render("./assets/scaleway/rclone.conf.j2", map[string]string{
 			"accessKey":      accessKey,
 			"secretKey":      secretKey,
 			"organizationId": scalewayConfig.OrganizationID,
@@ -59,19 +59,19 @@ func Install(
 
 		return tpl
 	}).(pulumi.StringOutput)
-	scalewayCredentialsHash := file.WritePulumi("./outputs/scaleway_credentials.env", credentials).
+	scalewayRcloneHash := file.WritePulumi("./outputs/scaleway_rclone.conf", rclone).
 		ApplyT(func(_ string) string {
-			hash, _ := file.Hash("./outputs/scaleway_credentials.env")
+			hash, _ := file.Hash("./outputs/scaleway_rclone.conf")
 			return *hash
 		})
-	scalewayCredentialsCopy := scalewayCredentialsHash.ApplyT(func(_ string) pulumi.ResourceOption {
+	scalewayRcloneCopy := scalewayRcloneHash.ApplyT(func(_ string) pulumi.ResourceOption {
 		cmd, _ := remote.NewCopyToRemote(
 			ctx,
-			"remote-copy-scaleway-credentials-env",
+			"remote-copy-scaleway-rclone-conf",
 			&remote.CopyToRemoteArgs{
-				Source:     pulumi.NewFileAsset("./outputs/scaleway_credentials.env"),
-				RemotePath: pulumi.String("/opt/scaleway/credentials.env"),
-				Triggers:   pulumi.Array{scalewayCredentialsHash},
+				Source:     pulumi.NewFileAsset("./outputs/scaleway_rclone.conf"),
+				RemotePath: pulumi.String("/opt/scaleway/rclone.conf"),
+				Triggers:   pulumi.Array{scalewayRcloneHash},
 				Connection: conn,
 			},
 			opts...)
@@ -85,7 +85,7 @@ func Install(
 	return remote.NewCommand(ctx, "remote-command-install-scaleway", &remote.CommandArgs{
 		Create:     pulumi.StringPtr(installFn),
 		Update:     pulumi.StringPtr(installFn),
-		Triggers:   pulumi.Array{scalewayCredentialsHash},
+		Triggers:   pulumi.Array{scalewayRcloneHash},
 		Connection: conn,
-	}, append(opts, install.CollectResourceOptions([]pulumi.Output{scalewayCredentialsCopy})...)...)
+	}, append(opts, install.CollectResourceOptions([]pulumi.Output{scalewayRcloneCopy})...)...)
 }
