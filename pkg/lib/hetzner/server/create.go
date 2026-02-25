@@ -64,7 +64,7 @@ func Create(
 	}
 
 	// primary IPs
-	primaryIPv4, primaryIPv6, publicIPv6, pipErr := createIPAddresses(ctx, dc, mailConfig)
+	primaryIPv4, primaryIPv6, publicIPv6, pipErr := createIPAddresses(ctx, dc, *serverConfig.Location, mailConfig)
 	if pipErr != nil {
 		return nil, pipErr
 	}
@@ -119,17 +119,20 @@ func Create(
 // createIPAddresses creates primary IPv4 and IPv6 addresses, sets up reverse DNS records, and returns the created IPs.
 // ctx: Pulumi context.
 // dc: Datacenter where the IPs will be created.
+// location: Location for the IPs, used for DNS setup.
 // mailConfig: Configuration for mail services, used for DNS setup.
 func createIPAddresses(
 	ctx *pulumi.Context,
 	dc string,
+	location string,
 	mailConfig *mail.Config,
 ) (*hcloud.PrimaryIp, *hcloud.PrimaryIp, *pulumi.StringOutput, error) {
 	// primary IPs
 	primaryIPv4, pv4Err := primaryip.Create(ctx, config.GlobalNameShort, &primaryip.CreateOptions{
 		Name:       fmt.Sprintf("%s-%s", config.GlobalName, config.Environment),
 		IPType:     "ipv4",
-		Datacenter: dc,
+		Datacenter: &dc,
+		Location:   location,
 		AutoDelete: pulumi.Bool(false),
 		Labels:     config.CommonLabels(),
 	})
@@ -139,7 +142,8 @@ func createIPAddresses(
 	primaryIPv6, pv6Err := primaryip.Create(ctx, config.GlobalNameShort, &primaryip.CreateOptions{
 		Name:       fmt.Sprintf("%s-%s", config.GlobalName, config.Environment),
 		IPType:     "ipv6",
-		Datacenter: dc,
+		Datacenter: &dc,
+		Location:   location,
 		AutoDelete: pulumi.Bool(false),
 		Labels:     config.CommonLabels(),
 	})
