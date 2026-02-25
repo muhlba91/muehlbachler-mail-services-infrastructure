@@ -9,7 +9,6 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/mailcow"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/ntfy"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/postgresql"
-	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/roundcube"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/scaleway"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/scaleway/application"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/simplelogin"
@@ -35,7 +34,7 @@ func main() {
 		}
 
 		// configuration
-		dnsConfig, scalewayConfig, networkConfig, serverConfig, mailConfig, simpleloginConfig, roundcubeConfig, ntfyConfig, databaseConfig, err := config.LoadConfig(
+		dnsConfig, scalewayConfig, networkConfig, serverConfig, mailConfig, simpleloginConfig, ntfyConfig, databaseConfig, err := config.LoadConfig(
 			ctx,
 		)
 		if err != nil {
@@ -154,22 +153,6 @@ func main() {
 		)
 		if slErr != nil {
 			return slErr
-		}
-
-		// roundcube
-		rcErr := roundcube.Install(
-			ctx,
-			instance.SSHIPv4,
-			sshKey.PrivateKeyPem,
-			postgresqlUsers,
-			mailcowSecrets.APIKeyReadWrite,
-			roundcubeConfig,
-			mailConfig,
-			dnsConfig,
-			pulumi.DependsOn(dependsOn),
-		)
-		if rcErr != nil {
-			return rcErr
 		}
 
 		// ntfy

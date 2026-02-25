@@ -13,7 +13,6 @@ import (
 // ctx: The Pulumi context for resource creation.
 // mailConfig: Configuration related to mail services.
 // dnsConfig: Configuration related to DNS services.
-// roundcubeConfig: Configuration specific to Roundcube.
 func createDNSRecords(
 	ctx *pulumi.Context,
 	mailConfig *mailConf.Config,

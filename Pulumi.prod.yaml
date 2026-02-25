@@ -5,11 +5,9 @@ config:
   muehlbachler-mail-services:bucketId: infrastructure-assets-87d6dbd4-4928-4cdc-8d9d-2b19417489d9
   muehlbachler-mail-services:database:
     database:
-      roundcube: roundcube
       simplelogin: simplelogin
     users:
       - simplelogin
-      - roundcube
   muehlbachler-mail-services:dns:
     email: postmaster@muehlbachler.io
     project: muehlbachler-dns
@@ -53,10 +51,6 @@ config:
     cidr: 10.20.0.0/16
     name: mail-services
     subnetCidr: 10.20.0.0/24
-  muehlbachler-mail-services:roundcube:
-    domain:
-      name: webmail.muehlbachler.io
-      zoneId: muehlbachler-io
   muehlbachler-mail-services:server:
     ipv4: 10.20.0.10
     publicSsh: true
