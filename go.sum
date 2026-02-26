@@ -43,8 +43,6 @@ github.com/clipperhouse/stringish v0.1.1 h1:+NSqMOr3GR6k1FdRhhnXrLfztGzuG+VuFDfa
 github.com/clipperhouse/stringish v0.1.1/go.mod h1:v/WhFtE1q0ovMta2+m+UbpZ+2/HEXNWYXQgCt4hdOzA=
 github.com/clipperhouse/uax29/v2 v2.3.0 h1:SNdx9DVUqMoBuBoW3iLOj4FQv3dN5mDtuqwuhIGpJy4=
 github.com/clipperhouse/uax29/v2 v2.3.0/go.mod h1:Wn1g7MK6OoeDT0vL+Q0SQLDz/KpfsVRgg6W7ihQeh4g=
-github.com/cloudflare/circl v1.6.1 h1:zqIqSPIndyBh1bjLVVDHMPpVKqp8Su/V+6MeDzzQBQ0=
-github.com/cloudflare/circl v1.6.1/go.mod h1:uddAzsPgqdMAYatqJ0lsjX1oECcQLIlRpzZh3pJrofs=
 github.com/cloudflare/circl v1.6.3 h1:9GPOhQGF9MCYUeXyMYlqTR6a5gTrgR/fBLXvUgtVcg8=
 github.com/cloudflare/circl v1.6.3/go.mod h1:2eXP6Qfat4O/Yhh8BznvKnJ+uzEoTQ6jVKJRn81BiS4=
 github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
@@ -149,10 +147,8 @@ github.com/muesli/cancelreader v0.2.2 h1:3I4Kt4BQjOR54NavqnDogx/MIoWBFa0StPA8ELU
 github.com/muesli/cancelreader v0.2.2/go.mod h1:3XuTXfFS2VjM+HTLZY9Ak0l6eUKfijIfMUZ4EgX0QYo=
 github.com/muesli/termenv v0.16.0 h1:S5AlUN9dENB57rsbnkPyfdGuWIlkmzJjbFf0Tf5FWUc=
 github.com/muesli/termenv v0.16.0/go.mod h1:ZRfOIKPFDYQoDFF4Olj7/QJbW60Ol/kL1pU3VfY/Cnk=
-github.com/muhlba91/pulumi-shared-library v0.0.0-20260225183445-4799862c5fa3 h1:rs9tchJhuRUnCAcVRhZM50/QrkKJjT3iuesQzslKl/8=
-github.com/muhlba91/pulumi-shared-library v0.0.0-20260225183445-4799862c5fa3/go.mod h1:bZQbMAdTBlhArVFugdK5VPQb0g/QdULWWZ9hLv4Cb+Y=
-github.com/muhlba91/pulumi-shared-library v0.0.0-20260226070051-9f1204d9140f h1:v1TsImXBJYKVcNajcXzsoHkLayWK8+9vmjgDQctqwO4=
-github.com/muhlba91/pulumi-shared-library v0.0.0-20260226070051-9f1204d9140f/go.mod h1:lfSePbLiyrH4M6ySutLKbi1AeDNRNCQS/hISqa0tuos=
+github.com/muhlba91/pulumi-shared-library v0.0.0-20260226151745-f44e8d613f13 h1:deLyDIVhZb7KFzC+BWl+l3dhyPFoEoOQ2IA7BP4YcmQ=
+github.com/muhlba91/pulumi-shared-library v0.0.0-20260226151745-f44e8d613f13/go.mod h1:8GPGYhMYJ7Uo+xC4juEX7PqmAr09uL/ovhBO3EE8aM4=
 github.com/onsi/gomega v1.34.1 h1:EUMJIKUjM8sKjYbtxQI9A4z2o+rruxnzNvpknOXie6k=
 github.com/onsi/gomega v1.34.1/go.mod h1:kU1QgUvBDLXBJq618Xvm2LUX6rSAfRaFRTcdOeDLwwY=
 github.com/opentracing/basictracer-go v1.1.0 h1:Oa1fTSBvAl8pa3U+IJYqrKm0NALwH9OsgwOqDv4xJW0=
@@ -198,6 +194,8 @@ github.com/pulumi/pulumi/sdk/v3 v3.223.0 h1:RFV3/fft/D/TWj9fuu4KJ1YauYV7mmcIHfZo
 github.com/pulumi/pulumi/sdk/v3 v3.223.0/go.mod h1:UGWJOz25OiFIN0QH79UFij8mffH94TYebKUgy9Wvug0=
 github.com/pulumiverse/pulumi-scaleway/sdk v1.43.0 h1:N5b1IBItbLputXjPcWkMrYK74c8lET0c00uJ/asFnDg=
 github.com/pulumiverse/pulumi-scaleway/sdk v1.43.0/go.mod h1:WbizC3eshM1KzuDlTxytK3vRsw6RFOvmnJdayYC3IfI=
+github.com/pulumiverse/pulumi-time/sdk v0.1.0 h1:xfi9HKDgV+GgDxQ23oSv9KxC3DQqViGTcMrJICRgJv0=
+github.com/pulumiverse/pulumi-time/sdk v0.1.0/go.mod h1:NUa1zA74DF002WrM6iF111A6UjX9knPpXufVRvBwNyg=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
 github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
 github.com/rogpeppe/go-internal v1.14.1 h1:UQB4HGPB6osV0SQTLymcB4TgvyWu6ZyliaW0tI/otEQ=
