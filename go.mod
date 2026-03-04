@@ -10,7 +10,7 @@ require (
 	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.16.2
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0
 	github.com/pulumi/pulumi/sdk/v3 v3.224.0
-	github.com/pulumiverse/pulumi-scaleway/sdk v1.43.0
+	github.com/pulumiverse/pulumi-scaleway/sdk v1.44.0
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
 )
