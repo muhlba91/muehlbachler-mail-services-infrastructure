@@ -1,4 +1,3 @@
-//nolint:revive // This package is not intended to be used as a library, so we can ignore the revive linter warnings.
 package mail
 
 import "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/dns"

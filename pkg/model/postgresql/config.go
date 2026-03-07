@@ -9,6 +9,5 @@ type Config struct {
 	// Username is the username for PostgreSQL authentication.
 	Username string
 	// Password is the password for PostgreSQL authentication.
-	//nolint:gosec // This is not a hardcoded secret, it's a configuration field.
 	Password string
 }

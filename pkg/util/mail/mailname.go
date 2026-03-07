@@ -1,4 +1,3 @@
-//nolint:revive // package name is fine as is
 package mail
 
 import "fmt"
