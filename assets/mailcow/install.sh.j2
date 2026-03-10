@@ -12,6 +12,11 @@ if [ -f /opt/mailcow.version ]; then
     if [ "$(head -n 1 /opt/mailcow.version)" != "{{ .version }}" ]; then
         ./update.sh --skip-start --force # downloads the first time it runs
         ./update.sh --skip-start --force
+    else
+        # we are already up to date, so we can skip the rest
+        # attention: if we change file related changes for mailcow, we would skip them too
+        # in that case we would need to run the file related changes for the new version, even if the version is the same as before
+        exit 0
     fi
 else
     # start services
