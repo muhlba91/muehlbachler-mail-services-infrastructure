@@ -207,6 +207,8 @@ github.com/muhlba91/pulumi-shared-library v0.0.0-20260330065317-1fba95cfa751 h1:
 github.com/muhlba91/pulumi-shared-library v0.0.0-20260330065317-1fba95cfa751/go.mod h1:CHDZUNxbjucVp6mh0YHALPY1Z4gHf/vSxThXjBgGKYQ=
 github.com/muhlba91/pulumi-shared-library v0.0.0-20260331011729-62a860bb0240 h1:OJdwWlo2Ly4URTJADa5rjmqa7vY0F8/mIHS2rgzLOD0=
 github.com/muhlba91/pulumi-shared-library v0.0.0-20260331011729-62a860bb0240/go.mod h1:EZs1fgkTUwqE4HdWC3bbCG3EWi0HMIgXgQU+nUAYXdE=
+github.com/muhlba91/pulumi-shared-library v0.0.0-20260331061040-9ad39c527931 h1:K6TxOLYtn46GhPWsg6S73NfWRpUjx3EJJ6zCo9OZFVw=
+github.com/muhlba91/pulumi-shared-library v0.0.0-20260331061040-9ad39c527931/go.mod h1:BEDtKEDyQ7ST9iJmExxAuuPMG9hLQgc99XT+Gk+sbN4=
 github.com/onsi/gomega v1.34.1 h1:EUMJIKUjM8sKjYbtxQI9A4z2o+rruxnzNvpknOXie6k=
 github.com/onsi/gomega v1.34.1/go.mod h1:kU1QgUvBDLXBJq618Xvm2LUX6rSAfRaFRTcdOeDLwwY=
 github.com/opentracing/basictracer-go v1.1.0 h1:Oa1fTSBvAl8pa3U+IJYqrKm0NALwH9OsgwOqDv4xJW0=
@@ -252,12 +254,16 @@ github.com/pulumi/pulumi-postgresql/sdk/v3 v3.16.2 h1:ln9wupML+tgM3vtO5XtRHe5Lem
 github.com/pulumi/pulumi-postgresql/sdk/v3 v3.16.2/go.mod h1:PQlILfLvIdkUPSv3ms2RfsflJEWG7/hqmUJrwt8Vpj8=
 github.com/pulumi/pulumi-random/sdk/v4 v4.19.1 h1:MUr4+gUQy+wqhoHsuhXO6ypT40KhU9j/2DT05YU9KIg=
 github.com/pulumi/pulumi-random/sdk/v4 v4.19.1/go.mod h1:AJpJvPU3qJaq02VUui3rMZHchvVpTvVuVp0lbCeEE50=
+github.com/pulumi/pulumi-random/sdk/v4 v4.19.2 h1:YDGarxRPtAgpnUg7nXVe+gVfVABBjo88UC6EMAmmvhM=
+github.com/pulumi/pulumi-random/sdk/v4 v4.19.2/go.mod h1:Dyyj49M9eX2ct1b3maqDGikMPVCNxXthG0KAhhj7nmI=
 github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0 h1:T5flLAVyTUbnNRbKMpwMpHoNiquxRlGzpevYkan5ZkM=
 github.com/pulumi/pulumi-tls/sdk/v5 v5.3.0/go.mod h1:dGWmFbFPclMTOrhpYtXN6trciFHZR08p31S6TqRrLzo=
 github.com/pulumi/pulumi-tls/sdk/v5 v5.3.1 h1:qy6N1fKNNCH2ylIm+v0i4VWAHGMPVNnAaOTffzxSda8=
 github.com/pulumi/pulumi-tls/sdk/v5 v5.3.1/go.mod h1:HyK4UFDdneYjFKP02pa6Hk1CE0Af4eTWkhbw5gF7wkU=
 github.com/pulumi/pulumi-vault/sdk/v7 v7.7.0 h1:mis+wkmtZyeQ7uGgQb4cKLoscHc+/Bf23jQtOC7EOCw=
 github.com/pulumi/pulumi-vault/sdk/v7 v7.7.0/go.mod h1:rYsw/ERi7gTdB8vQcLViEc66jTdglNOWmF7/mlAmfdM=
+github.com/pulumi/pulumi-vault/sdk/v7 v7.8.0 h1:oymiBGdRNzOjFawTWcYVUEkB6V6PPsGiY+INKbqGWME=
+github.com/pulumi/pulumi-vault/sdk/v7 v7.8.0/go.mod h1:lrTyUuoNeJNuNWS2GK5DplUig6c/94Kl4XvoJ1izNk8=
 github.com/pulumi/pulumi/sdk/v3 v3.225.1 h1:yn64PBZocE0Ums82fc6jaWRZthZ352BFi/tVAs5jrps=
 github.com/pulumi/pulumi/sdk/v3 v3.225.1/go.mod h1:kiwkjulVm9ibqTOcyrZYhaRZsDSxWpzIKPXtCFeffBE=
 github.com/pulumi/pulumi/sdk/v3 v3.226.0 h1:C24HWnoJSspq/KweSkAAAqWht/5pEkDanoxHe0al/dM=
