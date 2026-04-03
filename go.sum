@@ -300,6 +300,8 @@ github.com/pulumiverse/pulumi-scaleway/sdk v1.44.0 h1:dx5KJE20d54KKO/lYU3qE84OYE
 github.com/pulumiverse/pulumi-scaleway/sdk v1.44.0/go.mod h1:FxHpz+kIrH4fpznta1DIEcJOW0TCk3vOeE+TFKPUA9E=
 github.com/pulumiverse/pulumi-scaleway/sdk v1.44.1 h1:7da8KlBUB9JaOgPN+lbNGe/ytD+DhlMXK0yRZ7FAiak=
 github.com/pulumiverse/pulumi-scaleway/sdk v1.44.1/go.mod h1:FxHpz+kIrH4fpznta1DIEcJOW0TCk3vOeE+TFKPUA9E=
+github.com/pulumiverse/pulumi-scaleway/sdk v1.45.0 h1:wXK5zgV7Zr5Bozfc57iwwq2uJG25oHqbGnssPsklm1U=
+github.com/pulumiverse/pulumi-scaleway/sdk v1.45.0/go.mod h1:FxHpz+kIrH4fpznta1DIEcJOW0TCk3vOeE+TFKPUA9E=
 github.com/pulumiverse/pulumi-time/sdk v0.1.0 h1:xfi9HKDgV+GgDxQ23oSv9KxC3DQqViGTcMrJICRgJv0=
 github.com/pulumiverse/pulumi-time/sdk v0.1.0/go.mod h1:NUa1zA74DF002WrM6iF111A6UjX9knPpXufVRvBwNyg=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
@@ -369,6 +371,7 @@ go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.40.0 h1:QKdN8ly8zEMrByybbQg
 go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.40.0/go.mod h1:bTdK1nhqF76qiPoCCdyFIV+N/sRHYXYCTQc+3VCi3MI=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.41.0 h1:ao6Oe+wSebTlQ1OEht7jlYTzQKE+pnx/iNywFvTbuuI=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.41.0/go.mod h1:u3T6vz0gh/NVzgDgiwkgLxpsSF6PaPmo2il0apGJbls=
+go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.43.0/go.mod h1:Vl1/iaggsuRlrHf/hfPJPvVag77kKyvrLeD10kpMl+A=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.40.0 h1:DvJDOPmSWQHWywQS6lKL+pb8s3gBLOZUtw4N+mavW1I=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.40.0/go.mod h1:EtekO9DEJb4/jRyN4v4Qjc2yA7AtfCBuz2FynRUWTXs=
 go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.41.0 h1:mq/Qcf28TWz719lE3/hMB4KkyDuLJIvgJnFGcd0kEUI=
