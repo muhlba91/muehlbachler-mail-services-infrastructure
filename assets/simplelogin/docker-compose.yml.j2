@@ -45,17 +45,16 @@ services:
 
       - traefik.http.routers.simplelogin_http.rule=Host(`{{ .domain }}`)
       - traefik.http.routers.simplelogin_http.entrypoints=web
-      - traefik.http.routers.simplelogin_http.service=simplelogin_http
       - traefik.http.routers.simplelogin_http.middlewares=redirect-to-https
       - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-      - traefik.http.services.simplelogin_http.loadbalancer.server.port=7777
 
       - traefik.http.routers.simplelogin_https.rule=Host(`{{ .domain }}`)
       - traefik.http.routers.simplelogin_https.entrypoints=websecure
-      - traefik.http.routers.simplelogin_https.service=simplelogin_https
       - traefik.http.routers.simplelogin_https.tls=true
       - traefik.http.routers.simplelogin_https.tls.certresolver=letsencrypt
-      - traefik.http.services.simplelogin_https.loadbalancer.server.port=7777
+      - traefik.http.routers.simplelogin_https.service=simplelogin
+
+      - traefik.http.services.simplelogin.loadbalancer.server.port=7777
     networks:
       simplelogin:
       proxy:
