@@ -10,6 +10,15 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// recordCNAME is a constant representing the CNAME DNS record type.
+const recordCNAME = "CNAME"
+
+// recordA is a constant representing the A DNS record type.
+const recordA = "A"
+
+// recordAAAA is a constant representing the AAAA DNS record type.
+const recordAAAA = "AAAA"
+
 // CreateDNSRecords creates DNS records for Mailcow based on the provided DNS configuration.
 // ctx: The Pulumi context for resource creation.
 // dnsConfig: The DNS configuration containing domain and record details.
@@ -28,7 +37,7 @@ func CreateDNSRecords(
 	_, v4Err := record.Create(ctx, &record.CreateOptions{
 		Domain:     mainServer,
 		ZoneID:     pulumi.String(*mailConfig.Main.ZoneID),
-		RecordType: "A",
+		RecordType: recordA,
 		Records:    pulumi.StringArray([]pulumi.StringInput{ipv4}),
 		Project:    mailConfig.Main.Project,
 	})
@@ -39,7 +48,7 @@ func CreateDNSRecords(
 	_, v6Err := record.Create(ctx, &record.CreateOptions{
 		Domain:     mainServer,
 		ZoneID:     pulumi.String(*mailConfig.Main.ZoneID),
-		RecordType: "AAAA",
+		RecordType: recordAAAA,
 		Records:    pulumi.StringArray([]pulumi.StringInput{ipv6}),
 		Project:    mailConfig.Main.Project,
 	})
@@ -82,7 +91,7 @@ func createDomainRecords(
 		_, mErr := record.Create(ctx, &record.CreateOptions{
 			Domain:     fmt.Sprintf("mail.%s", *domain.Name),
 			ZoneID:     pulumi.String(*domain.ZoneID),
-			RecordType: "CNAME",
+			RecordType: recordCNAME,
 			Records:    records,
 			Project:    domain.Project,
 		})
@@ -95,7 +104,7 @@ func createDomainRecords(
 	_, aErr := record.Create(ctx, &record.CreateOptions{
 		Domain:     fmt.Sprintf("autodiscover.%s", *domain.Name),
 		ZoneID:     pulumi.String(*domain.ZoneID),
-		RecordType: "CNAME",
+		RecordType: recordCNAME,
 		Records:    records,
 		Project:    domain.Project,
 	})
@@ -105,7 +114,7 @@ func createDomainRecords(
 	_, acErr := record.Create(ctx, &record.CreateOptions{
 		Domain:     fmt.Sprintf("autoconfig.%s", *domain.Name),
 		ZoneID:     pulumi.String(*domain.ZoneID),
-		RecordType: "CNAME",
+		RecordType: recordCNAME,
 		Records:    records,
 		Project:    domain.Project,
 	})
@@ -115,7 +124,7 @@ func createDomainRecords(
 	_, mtaErr := record.Create(ctx, &record.CreateOptions{
 		Domain:     fmt.Sprintf("mta-sts.%s", *domain.Name),
 		ZoneID:     pulumi.String(*domain.ZoneID),
-		RecordType: "CNAME",
+		RecordType: recordCNAME,
 		Records:    records,
 		Project:    domain.Project,
 	})

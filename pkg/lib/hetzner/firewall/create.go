@@ -12,6 +12,9 @@ import (
 	serverConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/server"
 )
 
+// protocolTCP defines the TCP protocol string used in firewall rules.
+const protocolTCP = "tcp"
+
 // networkAllCIDR defines the CIDR blocks that represent all IP addresses.
 //
 //nolint:gochecknoglobals // global is acceptable here
@@ -34,7 +37,7 @@ func Create(
 		Description: pulumi.String("Allow incoming SSH traffic"),
 		Direction:   "in",
 		Port:        "22",
-		Protocol:    "tcp",
+		Protocol:    protocolTCP,
 		SourceIPs:   sshSourceIps,
 	}
 
@@ -44,49 +47,49 @@ func Create(
 			Description: pulumi.String("Allow incoming Prometheus traffic (Mailcow)"),
 			Direction:   "in",
 			Port:        "9099",
-			Protocol:    "tcp",
+			Protocol:    protocolTCP,
 			SourceIPs:   []pulumi.StringInput{pulumi.String(*networkConfig.SubnetCIDR)},
 		},
 		{
 			Description: pulumi.String("Allow incoming mail traffic (SMTP)"),
 			Direction:   "in",
 			Port:        "25",
-			Protocol:    "tcp",
+			Protocol:    protocolTCP,
 			SourceIPs:   networkAllCIDR,
 		},
 		{
 			Description: pulumi.String("Allow incoming mail traffic (SMTPS)"),
 			Direction:   "in",
 			Port:        "465",
-			Protocol:    "tcp",
+			Protocol:    protocolTCP,
 			SourceIPs:   networkAllCIDR,
 		},
 		{
 			Description: pulumi.String("Allow incoming mail traffic (IMAPS)"),
 			Direction:   "in",
 			Port:        "993",
-			Protocol:    "tcp",
+			Protocol:    protocolTCP,
 			SourceIPs:   networkAllCIDR,
 		},
 		{
 			Description: pulumi.String("Allow incoming mail traffic (Sieve)"),
 			Direction:   "in",
 			Port:        "4190",
-			Protocol:    "tcp",
+			Protocol:    protocolTCP,
 			SourceIPs:   networkAllCIDR,
 		},
 		{
 			Description: pulumi.String("Allow incoming web traffic (HTTP)"),
 			Direction:   "in",
 			Port:        "80",
-			Protocol:    "tcp",
+			Protocol:    protocolTCP,
 			SourceIPs:   networkAllCIDR,
 		},
 		{
 			Description: pulumi.String("Allow incoming web traffic (HTTPS)"),
 			Direction:   "in",
 			Port:        "443",
-			Protocol:    "tcp",
+			Protocol:    protocolTCP,
 			SourceIPs:   networkAllCIDR,
 		},
 	}

@@ -46,6 +46,7 @@ func Install(ctx *pulumi.Context,
 	}
 
 	dockerCompose, _ := template.Render("./assets/simplelogin/docker-compose.yml.j2", map[string]any{
+		//nolint:goconst // intentional duplication of "domain" key for better structure in the template
 		"domain": simpleloginConfig.Domain,
 	})
 	dockerComposeCopy, dockerComposeHash, dcErr := install.DockerCompose(

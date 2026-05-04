@@ -83,6 +83,7 @@ func createConfig(ctx *pulumi.Context,
 						"clientId":     simpleloginConfig.OIDC.ClientID,
 						"clientSecret": simpleloginConfig.OIDC.ClientSecret,
 					},
+					//nolint:goconst // intentional duplication of "domain" key for better structure in the template
 					"domain": simpleloginConfig.Domain,
 					"email": map[string]any{
 						"domain": simpleloginConfig.Mail.Domain,
