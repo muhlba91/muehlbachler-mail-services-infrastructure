@@ -3,11 +3,11 @@ module github.com/muhlba91/muehlbachler-mail-services-infrastructure
 go 1.26.0
 
 require (
-	github.com/muhlba91/pulumi-shared-library v0.0.0-20260522081440-1a0df2dae1eb
+	github.com/muhlba91/pulumi-shared-library v0.0.0-20260522160414-335fc0256e22
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.30.0
 	github.com/pulumi/pulumi-command/sdk v1.2.1
-	github.com/pulumi/pulumi-hcloud/sdk v1.36.0
-	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.16.3
+	github.com/pulumi/pulumi-hcloud/sdk v1.37.0
+	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.17.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.4.0
 	github.com/pulumi/pulumi/sdk/v3 v3.242.0
 	github.com/pulumiverse/pulumi-scaleway/sdk v1.49.0
@@ -83,10 +83,10 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/esc v0.24.0 // indirect
-	github.com/pulumi/pulumi-gcp/sdk/v9 v9.23.0 // indirect
+	github.com/pulumi/pulumi-gcp/sdk/v9 v9.25.0 // indirect
 	github.com/pulumi/pulumi-google-native/sdk v0.32.0 // indirect
-	github.com/pulumi/pulumi-random/sdk/v4 v4.20.0 // indirect
-	github.com/pulumi/pulumi-vault/sdk/v7 v7.9.0 // indirect
+	github.com/pulumi/pulumi-random/sdk/v4 v4.21.0 // indirect
+	github.com/pulumi/pulumi-vault/sdk/v7 v7.10.0 // indirect
 	github.com/pulumiverse/pulumi-time/sdk v0.1.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
