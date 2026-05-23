@@ -5,11 +5,9 @@ cd /opt/mailcow
 
 # installation check
 if [ -f /opt/mailcow.version ]; then
-    # backup
-    /bin/mailcow-backup
-
-    # run update script
     if [ "$(head -n 1 /opt/mailcow.version)" != "{{ .version }}" ]; then
+        # we are not up to date, so we need to update
+        /bin/mailcow-backup
         ./update.sh --skip-start --force # downloads the first time it runs
         ./update.sh --skip-start --force
     else
