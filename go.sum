@@ -269,6 +269,8 @@ github.com/pulumi/pulumi-hcloud/sdk v1.36.0 h1:zYY7iYcx8tGciVI1V93JaVaTTogBwIfQA
 github.com/pulumi/pulumi-hcloud/sdk v1.36.0/go.mod h1:fy3wceVfqzXghFRQ2d6KDTZrGDcz+Lws+OAtXJH/cJ0=
 github.com/pulumi/pulumi-hcloud/sdk v1.37.0 h1:kmZIMSMaORhLt1UDT2sP60n91UIJfpMb77qNcJKK3fs=
 github.com/pulumi/pulumi-hcloud/sdk v1.37.0/go.mod h1:rfOSimT+VT5KOiEO62R+wibR+Y3zDGHigOvzPecJ56g=
+github.com/pulumi/pulumi-hcloud/sdk v1.38.0 h1:scBIJRJph/kzo++iycvP7caIzMujhOagn+T3Mk9W2eI=
+github.com/pulumi/pulumi-hcloud/sdk v1.38.0/go.mod h1:rfOSimT+VT5KOiEO62R+wibR+Y3zDGHigOvzPecJ56g=
 github.com/pulumi/pulumi-postgresql/sdk/v3 v3.16.3 h1:d8Tfdjw0DuqPy9LHOh5rorbnCmZZrkb8/DjTJrjgWbg=
 github.com/pulumi/pulumi-postgresql/sdk/v3 v3.16.3/go.mod h1:Kwplm4CJHo4q6jZZHzXWv0Dhvlw0LIVuunvJU1dm/Oo=
 github.com/pulumi/pulumi-postgresql/sdk/v3 v3.17.0 h1:1wJPwyZb5fEgQNnXKyWRoIbPHEqWqAsR4ldR4pI9AXE=
