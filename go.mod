@@ -3,14 +3,14 @@ module github.com/muhlba91/muehlbachler-mail-services-infrastructure
 go 1.26.0
 
 require (
-	github.com/muhlba91/pulumi-shared-library v0.0.0-20260617045357-731fe6da2f91
+	github.com/muhlba91/pulumi-shared-library v0.0.0-20260618011250-37719c83413d
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.33.0
 	github.com/pulumi/pulumi-command/sdk v1.2.1
 	github.com/pulumi/pulumi-hcloud/sdk v1.38.0
 	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.17.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.5.0
 	github.com/pulumi/pulumi/sdk/v3 v3.246.0
-	github.com/pulumiverse/pulumi-scaleway/sdk v1.50.0
+	github.com/pulumiverse/pulumi-scaleway/sdk v1.50.1
 	github.com/rs/zerolog v1.35.1
 	github.com/stretchr/testify v1.11.1
 )
