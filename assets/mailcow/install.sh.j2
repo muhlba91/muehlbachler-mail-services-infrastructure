@@ -3,13 +3,19 @@
 ### mailcow ###
 cd /opt/mailcow
 
+# flag to determine if finalization steps should run
+should_run_finalization=0
+
 # installation check
 if [ -f /opt/mailcow.version ]; then
     if [ "$(head -n 1 /opt/mailcow.version)" != "{{ .version }}" ]; then
         # we are not up to date, so we need to update
         /bin/mailcow-backup
+
         ./update.sh --skip-start --force # downloads the first time it runs
         ./update.sh --skip-start --force
+
+        should_run_finalization=1
     else
         # we are already up to date, so we can skip the rest
         # attention: if we change file related changes for mailcow, we would skip them too
@@ -39,18 +45,23 @@ EOF
 
     # stop mailcow for the systemd service to take precendence
     docker compose down
+    
+    should_run_finalization=1
 fi
 
-# adopt file related changes
-sed 's/sign_headers =.*/sign_headers = "{{ .dkimSignHeaders }}";/g' /opt/mailcow/data/conf/rspamd/local.d/dkim_signing.conf
+# Execute final parts only if an update or a fresh install happened
+if [ "$should_run_finalization" -eq 1 ]; then
+    # adopt file related changes
+    sed 's/sign_headers =.*/sign_headers = "{{ .dkimSignHeaders }}";/g' /opt/mailcow/data/conf/rspamd/local.d/dkim_signing.conf
 
-# finalize installation
-echo "{{ .version }}" > /opt/mailcow.version
+    # finalize installation
+    echo "{{ .version }}" > /opt/mailcow.version
 
-# restart services
-systemctl daemon-reload
-systemctl restart mailcow
+    # restart services
+    systemctl daemon-reload
+    systemctl restart mailcow
 
-# cleanup old images
-sleep 90
-docker image prune --all --force || true
+    # cleanup old images
+    sleep 90
+    docker image prune --all --force || true
+fi
