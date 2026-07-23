@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/muhlba91/pulumi-shared-library v0.0.0-20260723090508-8ad6ad43088a
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.38.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.39.0
 	github.com/pulumi/pulumi-command/sdk v1.2.1
 	github.com/pulumi/pulumi-hcloud/sdk v1.39.1
 	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.18.0
