@@ -9,7 +9,7 @@ require (
 	github.com/pulumi/pulumi-hcloud/sdk v1.40.0
 	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.18.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.5.1
-	github.com/pulumi/pulumi/sdk/v3 v3.254.0
+	github.com/pulumi/pulumi/sdk/v3 v3.255.0
 	github.com/pulumiverse/pulumi-scaleway/sdk v1.53.0
 	github.com/rs/zerolog v1.35.1
 	github.com/stretchr/testify v1.11.1
