@@ -8,7 +8,6 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/config"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/mailcow"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/ntfy"
-	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/postgresql"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/scaleway"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/scaleway/application"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/simplelogin"
@@ -34,7 +33,7 @@ func main() {
 		}
 
 		// configuration
-		dnsConfig, scalewayConfig, networkConfig, serverConfig, mailConfig, simpleloginConfig, ntfyConfig, databaseConfig, err := config.LoadConfig(
+		dnsConfig, scalewayConfig, networkConfig, serverConfig, mailConfig, simpleloginConfig, ntfyConfig, err := config.LoadConfig(
 			ctx,
 		)
 		if err != nil {
@@ -45,12 +44,6 @@ func main() {
 		mailcowSecrets, mcsErr := mailcow.CreateSecrets(ctx)
 		if mcsErr != nil {
 			return mcsErr
-		}
-
-		// database
-		postgresqlUsers, pgErr := postgresql.Create(ctx, databaseConfig)
-		if pgErr != nil {
-			return pgErr
 		}
 
 		// instance
@@ -144,7 +137,6 @@ func main() {
 			ctx,
 			instance.SSHIPv4,
 			sshKey.PrivateKeyPem,
-			postgresqlUsers,
 			simpleloginConfig,
 			serverConfig,
 			mailConfig,

@@ -1,22 +1,30 @@
 package simplelogin
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/config"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/dns"
 	mailConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/mail"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/server"
 	simpleloginConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/simplelogin"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/dkim"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/install"
-	"github.com/muhlba91/pulumi-shared-library/pkg/model/postgresql"
+	"github.com/muhlba91/pulumi-shared-library/pkg/lib/random"
+	"github.com/muhlba91/pulumi-shared-library/pkg/lib/vault/secret"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
 
 // databaseName is the name of the PostgreSQL database used by SimpleLogin.
 const databaseName = "simplelogin"
+
+// postgresPasswordLength defines the length of the PostgreSQL password for SimpleLogin.
+const postgresPasswordLength = 32
 
 // Install SimpleLogin on the remote server via SSH and create necessary resources.
 // ctx: Pulumi context.
@@ -27,11 +35,10 @@ const databaseName = "simplelogin"
 // serverConfig: Configuration of the server where SimpleLogin is installed.
 // dependsOn: List of Pulumi resources that this installation depends on.
 //
-//nolint:funlen,godox // temporary for postgres migration
+//nolint:funlen // this is a long function, but it's necessary for the installation process
 func Install(ctx *pulumi.Context,
 	sshIPv4 pulumi.StringOutput,
 	privateKeyPem pulumi.StringOutput,
-	postgresqlUsers map[string]*pulumi.AnyOutput,
 	simpleloginConfig *simpleloginConf.Config,
 	serverConfig *server.Config,
 	mailConfig *mailConf.Config,
@@ -51,21 +58,21 @@ func Install(ctx *pulumi.Context,
 		return nil, prepErr
 	}
 
-	// TODO: migrate password over
-	dockerCompose, _ := postgresqlUsers["simplelogin"].ApplyT(func(psqlUser any) pulumi.StringOutput {
-		postgresUser, _ := psqlUser.(*postgresql.UserData)
-		return postgresUser.Password.ApplyT(func(postgresqlPasword string) string {
-			tpl, _ := template.Render("./assets/simplelogin/docker-compose.yml.j2", map[string]any{
-				//nolint:goconst // intentional duplication of "domain" key for better structure in the template
-				"domain": simpleloginConfig.Domain,
-				"db": map[string]any{
-					"database": databaseName,
-					"user":     databaseName,
-					"password": postgresqlPasword,
-				},
-			})
-			return tpl
-		}).(pulumi.StringOutput)
+	// postgres password
+	postgresqlPassword := createPostgresPassword(ctx)
+
+	dockerCompose, _ := postgresqlPassword.ApplyT(func(pgPass string) string {
+		tpl, _ := template.Render("./assets/simplelogin/docker-compose.yml.j2", map[string]any{
+			//nolint:goconst // intentional duplication of "domain" key for better structure in the template
+			"domain": simpleloginConfig.Domain,
+			"db": map[string]any{
+				"database": databaseName,
+				"user":     databaseName,
+				//nolint:goconst // intentional duplication of "password" key for better structure
+				"password": pgPass,
+			},
+		})
+		return tpl
 	}).(pulumi.StringOutput)
 	dockerComposeCopy, dockerComposeHash, dcErr := install.DockerCompose(
 		ctx,
@@ -82,7 +89,13 @@ func Install(ctx *pulumi.Context,
 	if dkErr != nil {
 		return nil, dkErr
 	}
-	envFileCopy, envFileHash := createConfig(ctx, conn, postgresqlUsers, simpleloginConfig, serverConfig, opts...)
+	envFileCopy, envFileHash := createConfig(
+		ctx,
+		conn,
+		postgresqlPassword,
+		simpleloginConfig,
+		serverConfig,
+		opts...)
 
 	_, cronErr := install.Cron(ctx, "simplelogin", conn, opts...)
 	if cronErr != nil {
@@ -147,4 +160,26 @@ func Install(ctx *pulumi.Context,
 		})
 
 	return dkimKey, nil
+}
+
+// createPostgresPassword generates a random password for the PostgreSQL user and stores it in a secret.
+// ctx: Pulumi context.
+func createPostgresPassword(ctx *pulumi.Context) pulumi.StringOutput {
+	postgresqlPassword, _ := random.CreatePassword(ctx, "password-pg-user-simplelogin", &random.PasswordOptions{
+		Length:  postgresPasswordLength,
+		Special: false,
+	})
+	secretValue, _ := postgresqlPassword.Password.ApplyT(func(pgPass string) string {
+		val, _ := json.Marshal(map[string]any{
+			"password": pgPass,
+		})
+		return string(val)
+	}).(pulumi.StringOutput)
+	_, _ = secret.Create(ctx, &secret.CreateOptions{
+		Path:  config.GlobalName,
+		Key:   fmt.Sprintf("postgresql-user-%s", databaseName),
+		Value: secretValue,
+	})
+
+	return postgresqlPassword.Password
 }

@@ -3,11 +3,6 @@ encryptedkey: CiQAvgA/t7fhy6BfSycvkEehN1EU6xfIz6RXlNJaIHRjkpClizASSQB99kCJxyeq1M
 config:
   muehlbachler-mail-services:backupBucketId: infrastructure-backups-87d6dbd4-4928-4cdc-8d9d-2b19417489d9
   muehlbachler-mail-services:bucketId: infrastructure-assets-87d6dbd4-4928-4cdc-8d9d-2b19417489d9
-  muehlbachler-mail-services:database:
-    database:
-      simplelogin: simplelogin
-    users:
-      - simplelogin
   muehlbachler-mail-services:dns:
     email: postmaster@muehlbachler.io
     project: muehlbachler-dns

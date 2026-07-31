@@ -6,7 +6,6 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 
-	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/database"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/dns"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/mail"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/network"
@@ -14,7 +13,6 @@ import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/scaleway"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/server"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/simplelogin"
-	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/postgresql"
 )
 
 //nolint:gochecknoglobals // global configuration is acceptable here
@@ -37,15 +35,13 @@ var (
 	BucketID string
 	// BackupBucketID is the ID of the backup storage bucket.
 	BackupBucketID string
-	// PostgresqlConfig holds the configuration for PostgreSQL access.
-	PostgresqlConfig *pulumi.AnyOutput
 )
 
 // LoadConfig loads the configuration for the given Pulumi context.
 // ctx: The Pulumi context.
 func LoadConfig(
 	ctx *pulumi.Context,
-) (*dns.Config, *scaleway.Config, *network.Config, *server.Config, *mail.Config, *simplelogin.Config, *ntfy.Config, *database.Config, error) {
+) (*dns.Config, *scaleway.Config, *network.Config, *server.Config, *mail.Config, *simplelogin.Config, *ntfy.Config, error) {
 	Environment = ctx.Stack()
 
 	cfg := config.New(ctx, "")
@@ -76,35 +72,7 @@ func LoadConfig(
 	var ntfyConfig ntfy.Config
 	cfg.RequireObject("ntfy", &ntfyConfig)
 
-	var databaseConfig database.Config
-	cfg.RequireObject("database", &databaseConfig)
-
-	sharedServicesStack, sErr := pulumi.NewStackReference(
-		ctx,
-		fmt.Sprintf("%s/%s/%s", ctx.Organization(), "muehlbachler-shared-services", Environment),
-		nil,
-	)
-	if sErr != nil {
-		return nil, nil, nil, nil, nil, nil, nil, nil, sErr
-	}
-	sharedServicesStackAws := sharedServicesStack.GetOutput(pulumi.String("aws"))
-	psqlConfig, _ := sharedServicesStackAws.ApplyT(func(awsOutput any) *postgresql.Config {
-		psqlConn, _ := awsOutput.(map[string]any)["postgresql"].(map[string]any)
-		address, _ := psqlConn["address"].(string)
-		port, _ := psqlConn["port"].(float64)
-		username, _ := psqlConn["username"].(string)
-		password, _ := psqlConn["password"].(string)
-
-		return &postgresql.Config{
-			Address:  address,
-			Port:     int(port),
-			Username: username,
-			Password: password,
-		}
-	}).(pulumi.AnyOutput)
-	PostgresqlConfig = &psqlConfig
-
-	return &dnsConfig, &scalewayConfig, &networkConfig, &serverConfig, &mailConfig, &simpleloginConfig, &ntfyConfig, &databaseConfig, nil
+	return &dnsConfig, &scalewayConfig, &networkConfig, &serverConfig, &mailConfig, &simpleloginConfig, &ntfyConfig, nil
 }
 
 // CommonLabels returns a map of common labels to be used across resources.
