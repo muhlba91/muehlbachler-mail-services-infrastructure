@@ -10,9 +10,13 @@ import (
 	simpleloginConf "github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/config/simplelogin"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/model/dkim"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/install"
+	"github.com/muhlba91/pulumi-shared-library/pkg/model/postgresql"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/template"
 )
+
+// databaseName is the name of the PostgreSQL database used by SimpleLogin.
+const databaseName = "simplelogin"
 
 // Install SimpleLogin on the remote server via SSH and create necessary resources.
 // ctx: Pulumi context.
@@ -22,6 +26,8 @@ import (
 // simpleloginConfig: Configuration for SimpleLogin installation.
 // serverConfig: Configuration of the server where SimpleLogin is installed.
 // dependsOn: List of Pulumi resources that this installation depends on.
+//
+//nolint:funlen,godox // temporary for postgres migration
 func Install(ctx *pulumi.Context,
 	sshIPv4 pulumi.StringOutput,
 	privateKeyPem pulumi.StringOutput,
@@ -45,14 +51,26 @@ func Install(ctx *pulumi.Context,
 		return nil, prepErr
 	}
 
-	dockerCompose, _ := template.Render("./assets/simplelogin/docker-compose.yml.j2", map[string]any{
-		//nolint:goconst // intentional duplication of "domain" key for better structure in the template
-		"domain": simpleloginConfig.Domain,
-	})
+	// TODO: migrate password over
+	dockerCompose, _ := postgresqlUsers["simplelogin"].ApplyT(func(psqlUser any) pulumi.StringOutput {
+		postgresUser, _ := psqlUser.(*postgresql.UserData)
+		return postgresUser.Password.ApplyT(func(postgresqlPasword string) string {
+			tpl, _ := template.Render("./assets/simplelogin/docker-compose.yml.j2", map[string]any{
+				//nolint:goconst // intentional duplication of "domain" key for better structure in the template
+				"domain": simpleloginConfig.Domain,
+				"db": map[string]any{
+					"database": databaseName,
+					"user":     databaseName,
+					"password": postgresqlPasword,
+				},
+			})
+			return tpl
+		}).(pulumi.StringOutput)
+	}).(pulumi.StringOutput)
 	dockerComposeCopy, dockerComposeHash, dcErr := install.DockerCompose(
 		ctx,
 		"simplelogin",
-		pulumi.String(dockerCompose),
+		dockerCompose,
 		false,
 		conn,
 		opts...)
@@ -65,6 +83,11 @@ func Install(ctx *pulumi.Context,
 		return nil, dkErr
 	}
 	envFileCopy, envFileHash := createConfig(ctx, conn, postgresqlUsers, simpleloginConfig, serverConfig, opts...)
+
+	_, cronErr := install.Cron(ctx, "simplelogin", conn, opts...)
+	if cronErr != nil {
+		return nil, cronErr
+	}
 
 	opts, systemdServiceHash, shErr := install.SystemDService(ctx, "simplelogin", conn, opts...)
 	if shErr != nil {

@@ -3,17 +3,60 @@
 ### simplelogin ###
 cd /opt/simplelogin
 
-# installation
-chmod +x /opt/simplelogin/init.sh
+# flag to determine if finalization steps should run
+should_run_finalization=0
 
-# finalize installation
-echo "{{ .version }}" > /opt/simplelogin.version
+# installation check
+if [ -f /opt/simplelogin.version ]; then
+    if [ "$(head -n 1 /opt/simplelogin.version)" != "{{ .version }}" ]; then
+        # we are not up to date, so we need to update
+        /bin/simplelogin-backup
 
-# restart services
-systemctl daemon-reload
-systemctl enable simplelogin
-systemctl restart simplelogin
+        should_run_finalization=1
+    else
+        # we are already up to date, so we can skip the rest
+        # attention: if we change file related changes for simplelogin, we would skip them too
+        # in that case we would need to run the file related changes for the new version, even if the version is the same as before
+        exit 0
+    fi
+else
+    # installation
+    chmod +x /opt/simplelogin/init.sh
 
-# cleanup old images
-sleep 90
-docker image prune --all --force || true
+    # start services
+    systemctl daemon-reload
+    systemctl enable simplelogin
+
+    # temporary start
+    docker compose up -d
+    sleep 180
+
+    # restore from backup, if exists
+    rclone --config /opt/scaleway/rclone.conf sync -P scaleway:{{ .bucket.id }}/{{ .bucket.path }}/simplelogin/ /opt/backup/
+    BACKUP_FILE=$(find /opt/backup/simplelogin -maxdepth 1 -name "simplelogin-*.dump" | sort -r | head -n 1)
+    if [ -z "$BACKUP_FILE" ]; then
+        echo "no backup file found in $BACKUP_DIR. Skipping restore."
+    else
+        BACKUP_BASENAME=$(basename "$BACKUP_FILE")
+        docker exec -t simplelogin-postgres pg_restore -U simplelogin -d simplelogin --clean --if-exists --no-owner --no-privileges --role=simplelogin "/backups/$BACKUP_BASENAME"
+    fi
+
+    # stop simplelogin for the systemd service to take precendence
+    docker compose down
+    
+    should_run_finalization=1
+fi
+
+# Execute final parts only if an update or a fresh install happened
+if [ "$should_run_finalization" -eq 1 ]; then
+    # finalize installation
+    echo "{{ .version }}" > /opt/simplelogin.version
+
+    # restart services
+    systemctl daemon-reload
+    systemctl restart simplelogin
+
+    # cleanup old images
+    sleep 90
+    docker image prune --all --force || true
+fi

@@ -1,5 +1,21 @@
 ---
 services:
+  postgres:
+    image: postgres:14.22-alpine
+    container_name: simplelogin-postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U simplelogin -d simplelogin"]
+    networks:
+      simplelogin:
+    environment:
+      POSTGRES_DB: "{{ .db.database }}"
+      POSTGRES_USER: "{{ .db.user }}"
+      POSTGRES_PASSWORD: "{{ .db.password }}"
+    volumes:
+      - /opt/simplelogin/postgres:/var/lib/postgresql/data
+      - /opt/backup/simplelogin:/backups
+
   redis:
     image: redis:8.10.0-alpine
     container_name: simplelogin-redis
@@ -16,6 +32,8 @@ services:
     container_name: simplelogin-init
     depends_on:
       redis:
+        condition: service_healthy
+      postgres:
         condition: service_healthy
     networks:
       simplelogin:
@@ -36,6 +54,8 @@ services:
     restart: unless-stopped
     depends_on:
       redis:
+        condition: service_healthy
+      postgres:
         condition: service_healthy
       init:
         condition: service_completed_successfully
@@ -80,6 +100,8 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+      postgres:
+        condition: service_healthy
       init:
         condition: service_completed_successfully
     networks:
@@ -101,6 +123,8 @@ services:
     restart: unless-stopped
     depends_on:
       redis:
+        condition: service_healthy
+      postgres:
         condition: service_healthy
       init:
         condition: service_completed_successfully
