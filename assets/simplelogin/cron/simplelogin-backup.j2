@@ -5,7 +5,7 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 FILENAME="simplelogin-${TIMESTAMP}.dump"
 
 # run backup
-docker exec -i simplelogin-postgres pg_dump -U simplelogin -d simplelogin -Fcb -f "/backups/${FILENAME}"
+docker exec -i simplelogin-postgres pg_dump -U simplelogin -d simplelogin -Fc -f "/backups/${FILENAME}"
 
 # retention policy: delete backups older than 3 days
 find /opt/backup/simplelogin -maxdepth 1 -name "simplelogin_*.dump" -mtime +3 -print -delete
