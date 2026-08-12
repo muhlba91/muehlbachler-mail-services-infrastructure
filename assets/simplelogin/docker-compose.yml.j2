@@ -28,7 +28,7 @@ services:
       - net.core.somaxconn=4096
 
   init:
-    image: simplelogin/app-ci:v4.81.6
+    image: simplelogin/app-ci:v4.81.7
     container_name: simplelogin-init
     depends_on:
       redis:
@@ -49,7 +49,7 @@ services:
       - /opt/simplelogin/init.sh:/init.sh
 
   app:
-    image: simplelogin/app-ci:v4.81.6
+    image: simplelogin/app-ci:v4.81.7
     container_name: simplelogin-app
     restart: unless-stopped
     depends_on:
@@ -94,7 +94,7 @@ services:
       - /opt/simplelogin/env:/code/.env
 
   handler:
-    image: simplelogin/app-ci:v4.81.6
+    image: simplelogin/app-ci:v4.81.7
     container_name: simplelogin-handler
     restart: unless-stopped
     depends_on:
@@ -118,7 +118,7 @@ services:
       - /opt/simplelogin/env:/code/.env
 
   runner:
-    image: simplelogin/app-ci:v4.81.6
+    image: simplelogin/app-ci:v4.81.7
     container_name: simplelogin-runner
     restart: unless-stopped
     depends_on:
