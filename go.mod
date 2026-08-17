@@ -12,7 +12,7 @@ require (
 	github.com/pulumi/pulumi/sdk/v3 v3.257.0
 	github.com/pulumiverse/pulumi-scaleway/sdk v1.54.0
 	github.com/rs/zerolog v1.35.1
-	github.com/stretchr/testify v1.11.1
+	github.com/stretchr/testify v1.12.0
 )
 
 require (
