@@ -61,7 +61,7 @@ func Create(ctx *pulumi.Context, scalewayConfig *scaleway.Config) (*smodel.Appli
 			Msgf("[buckets][scaleway][application] failed to create IAM policy for %s", resourceName)
 	}
 
-	vaultValue, _ := (pulumi.All(app.Key.AccessKey, app.Key.SecretKey).ApplyT(func(args []any) string {
+	vaultValue, _ := pulumi.All(app.Key.AccessKey, app.Key.SecretKey).ApplyT(func(args []any) string {
 		accessKey, ok := args[0].(string)
 		if !ok {
 			log.Error().Msgf("[buckets][scaleway][application] failed to cast access key for %s", resourceName)
@@ -82,7 +82,7 @@ func Create(ctx *pulumi.Context, scalewayConfig *scaleway.Config) (*smodel.Appli
 			log.Error().Err(errMarshal).Msgf("[buckets][scaleway][application][vault] failed to marshal credentials for %s", resourceName)
 		}
 		return string(data)
-	})).(pulumi.StringOutput)
+	}).(pulumi.StringOutput)
 
 	_, errVault := secret.Create(ctx, &secret.CreateOptions{
 		Key:   "scaleway",

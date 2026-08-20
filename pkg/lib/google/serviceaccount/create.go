@@ -35,7 +35,7 @@ func Create(ctx *pulumi.Context, dnsConfig *dns.Config) (*gmodel.User, error) {
 		return nil
 	})
 
-	vaultValue, _ := (iam.Key.PrivateKey.ApplyT(func(creds string) string {
+	vaultValue, _ := iam.Key.PrivateKey.ApplyT(func(creds string) string {
 		data, errMarshal := json.Marshal(map[string]string{
 			"credentials": creds,
 			"bucket":      config.BackupBucketID,
@@ -44,7 +44,7 @@ func Create(ctx *pulumi.Context, dnsConfig *dns.Config) (*gmodel.User, error) {
 			log.Error().Err(errMarshal).Msg("[google][serviceaccount][vault] failed to marshal credentials")
 		}
 		return string(data)
-	})).(pulumi.StringOutput)
+	}).(pulumi.StringOutput)
 
 	_, errVault := secret.Create(ctx, &secret.CreateOptions{
 		Key:   "google-cloud",
