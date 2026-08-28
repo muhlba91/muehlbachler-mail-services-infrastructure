@@ -1,6 +1,6 @@
 module github.com/muhlba91/muehlbachler-mail-services-infrastructure
 
-go 1.26.0
+go 1.26.6
 
 require (
 	github.com/muhlba91/pulumi-shared-library v0.0.0-20260820005134-29214cb2f358
@@ -9,7 +9,7 @@ require (
 	github.com/pulumi/pulumi-hcloud/sdk v1.41.0
 	github.com/pulumi/pulumi-postgresql/sdk/v3 v3.18.0
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.5.1
-	github.com/pulumi/pulumi/sdk/v3 v3.259.0
+	github.com/pulumi/pulumi/sdk/v3 v3.260.0
 	github.com/pulumiverse/pulumi-scaleway/sdk v1.54.0
 	github.com/rs/zerolog v1.35.1
 	github.com/stretchr/testify v1.12.1
@@ -40,6 +40,7 @@ require (
 	github.com/cloudflare/circl v1.6.3 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
 	github.com/danieljoos/wincred v1.2.3 // indirect
+	github.com/deckarep/golang-set/v2 v2.5.0 // indirect
 	github.com/djherbis/times v1.6.0 // indirect
 	github.com/ebitengine/purego v0.10.2 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
