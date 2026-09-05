@@ -40,7 +40,6 @@ func Create(
 
 	// SSH Key
 	hetznerSSHKey, hErr := sshkey.Create(ctx, config.GlobalNameShort, &sshkey.CreateOptions{
-		Name:      fmt.Sprintf("%s-%s", config.GlobalName, config.Environment),
 		PublicKey: publicSSHKey,
 		Labels:    config.CommonLabels(),
 	})
