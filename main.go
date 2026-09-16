@@ -6,6 +6,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/config"
+	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/journal"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/mailcow"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/ntfy"
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/lib/scaleway"
@@ -56,6 +57,12 @@ func main() {
 			return iErr
 		}
 		dependsOn := []pulumi.Resource{instance.Resource}
+
+		// journal
+		jErr := journal.Install(ctx, instance.SSHIPv4, sshKey.PrivateKeyPem, pulumi.DependsOn(dependsOn))
+		if jErr != nil {
+			return jErr
+		}
 
 		// docker
 		dockerInstall, doErr := docker.Install(ctx, instance.SSHIPv4, sshKey.PrivateKeyPem, pulumi.DependsOn(dependsOn))
