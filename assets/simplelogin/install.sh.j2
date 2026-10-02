@@ -38,7 +38,7 @@ else
         echo "no backup file found in $BACKUP_DIR. Skipping restore."
     else
         BACKUP_BASENAME=$(basename "$BACKUP_FILE")
-        docker exec -t simplelogin-postgres pg_restore -U simplelogin -d simplelogin --clean --if-exists --no-owner --no-privileges --role=simplelogin "/backups/$BACKUP_BASENAME"
+        docker exec simplelogin-postgres pg_restore -U simplelogin -d simplelogin --clean --if-exists --no-owner --no-privileges --role=simplelogin "/backups/$BACKUP_BASENAME"
     fi
 
     # stop simplelogin for the systemd service to take precendence
