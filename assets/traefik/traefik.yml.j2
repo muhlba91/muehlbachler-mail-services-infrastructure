@@ -37,6 +37,9 @@ entryPoints:
     http:
       tls:
         certResolver: letsencrypt
+    transport:
+      respondingTimeouts:
+        readTimeout: 24h
     proxyProtocol:
       trustedIPs:
         - "127.0.0.0/8"
