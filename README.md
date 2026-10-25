@@ -10,8 +10,7 @@ This repository contains the infrastructure as code (IaC) for mail services usin
 
 ## Requirements
 
-- [Go](https://golang.org/dl/)
-- [Pulumi](https://www.pulumi.com/docs/install/)
+- [mise](https://mise.jdx.dev), which provides Go, golangci-lint and Pulumi (see [Development](#development))
 
 ## Creating the Infrastructure
 
@@ -133,3 +132,7 @@ backupBucketId: the backup bucket identifier
 
 - [GitHub Actions](https://docs.github.com/en/actions) are linting, and verifying the code.
 - [Renovate Bot](https://github.com/renovatebot/renovate) is updating Go modules, and GitHub Actions.
+
+## Development
+
+Tool versions (Go, golangci-lint, Pulumi) are managed with [mise](https://mise.jdx.dev): run `mise trust` and `mise install` once, then use the usual commands (`make lint`, `make test`, `go test ./...`).
