@@ -2,7 +2,7 @@ package gcloud
 
 import (
 	"github.com/muhlba91/muehlbachler-mail-services-infrastructure/pkg/util/install"
-	"github.com/muhlba91/pulumi-shared-library/pkg/model/google/iam/serviceaccount"
+	"github.com/muhlba91/pulumi-shared-library/pkg/model/google/native/iam/serviceaccount"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/encoding"
 	"github.com/muhlba91/pulumi-shared-library/pkg/util/file"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"

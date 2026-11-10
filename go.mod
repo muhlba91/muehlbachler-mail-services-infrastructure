@@ -3,7 +3,7 @@ module github.com/muhlba91/muehlbachler-mail-services-infrastructure
 go 1.27.3
 
 require (
-	github.com/muhlba91/pulumi-shared-library v0.0.0-20261109182431-7a98b39fe023
+	github.com/muhlba91/pulumi-shared-library v0.0.0-20261110105748-a6350a47a27a
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.54.0
 	github.com/pulumi/pulumi-command/sdk v1.3.0
 	github.com/pulumi/pulumi-hcloud/sdk v1.43.4
@@ -62,7 +62,6 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kevinburke/ssh_config v1.6.0 // indirect
 	github.com/klauspost/compress v1.20.0 // indirect
-	github.com/klauspost/cpuid/v2 v2.4.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.4.1 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
@@ -78,14 +77,12 @@ require (
 	github.com/opentracing/basictracer-go v1.1.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pgavlin/fx v0.1.6 // indirect
-	github.com/pgavlin/fx/v2 v2.0.12 // indirect
 	github.com/pjbgf/sha1cd v0.7.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/pulumi-cloud-sdk/go v1.20261104.0 // indirect
 	github.com/pulumi/pulumi-gcp/sdk/v10 v10.2.0 // indirect
-	github.com/pulumi/pulumi-gcp/sdk/v9 v9.37.1 // indirect
 	github.com/pulumi/pulumi-google-native/sdk v0.32.0 // indirect
 	github.com/pulumi/pulumi-random/sdk/v4 v4.21.6 // indirect
 	github.com/pulumi/pulumi-vault/sdk/v7 v7.14.1 // indirect
