@@ -82,6 +82,7 @@ jobs:
           refresh: true
         env:
           VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -148,5 +149,7 @@ jobs:
         with:
           command: up
           stack-name: prod
+          refresh: true
         env:
           VAULT_ADDR: "${{ secrets.VAULT_ADDR }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
