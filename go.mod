@@ -3,7 +3,7 @@ module github.com/muhlba91/muehlbachler-mail-services-infrastructure
 go 1.27.4
 
 require (
-	github.com/muhlba91/pulumi-shared-library v0.0.0-20261119050258-6d6ace3175c4
+	github.com/muhlba91/pulumi-shared-library v0.0.0-20261119064137-64723b59c270
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.55.0
 	github.com/pulumi/pulumi-command/sdk v1.3.0
 	github.com/pulumi/pulumi-hcloud/sdk v1.43.4
@@ -82,7 +82,7 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/pulumi-cloud-sdk/go v1.20261112.0 // indirect
-	github.com/pulumi/pulumi-gcp/sdk/v10 v10.3.0 // indirect
+	github.com/pulumi/pulumi-gcp/sdk/v10 v10.5.0 // indirect
 	github.com/pulumi/pulumi-google-native/sdk v0.32.0 // indirect
 	github.com/pulumi/pulumi-random/sdk/v4 v4.21.6 // indirect
 	github.com/pulumi/pulumi-vault/sdk/v7 v7.14.1 // indirect
