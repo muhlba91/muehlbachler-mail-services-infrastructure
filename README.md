@@ -30,14 +30,16 @@ The entire infrastructure can be destroyed via:
 pulumi destroy
 ```
 
-## Environment Variables
+## Secrets
 
-To successfully run, and configure the Pulumi plugins, you need to set a list of environment variables. Alternatively, refer to the used Pulumi provider's configuration documentation.
+[fnox](https://fnox.jdx.dev) loads the secrets from Vault (`fnox.toml`). CI logs in to Vault through GitHub OIDC (repository secrets `VAULT_ADDR`, `VAULT_PATH`, `VAULT_ROLE`) and assumes the AWS CI role by OIDC. Locally (`FNOX_PROFILE=dev`) the Vault token is the machine's own, Google credentials impersonate the CI service account, and the `aws` lease assumes the same AWS role from your IAM Identity Center login:
 
-- `CLOUDSDK_CORE_PROJECT`: the Google Cloud (GCP) project
-- `CLOUDSDK_COMPUTE_REGION` the Google Cloud (GCP) region
-- `GOOGLE_APPLICATION_CREDENTIALS`: reference to a file containing the Google Cloud (GCP) service account credentials
-- `HCLOUD_TOKEN`: the token to interact with Hetzner Cloud
+```bash
+aws sso login --profile ci-assume   # once per session
+fnox exec -- pulumi preview --stack prod
+```
+
+Local overrides go into `fnox.local.toml` (gitignored).
 
 ---
 
