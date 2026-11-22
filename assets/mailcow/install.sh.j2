@@ -12,7 +12,6 @@ if [ -f /opt/mailcow.version ]; then
         # we are not up to date, so we need to update
         /bin/mailcow-backup
 
-        ./update.sh --skip-start --force # downloads the first time it runs
         ./update.sh --skip-start --force
 
         should_run_finalization=1
