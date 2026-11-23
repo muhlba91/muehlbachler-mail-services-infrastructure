@@ -25,7 +25,7 @@ services:
       - traefik.tcp.services.mailcow_tcp.loadbalancer.server.port=8443
     networks:
       proxy:
-  
+
   dovecot-mailcow:
     labels:
       ofelia.enabled: "true"

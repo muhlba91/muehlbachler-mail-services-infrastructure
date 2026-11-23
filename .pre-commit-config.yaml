@@ -14,7 +14,6 @@ repos:
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
-      - id: check-xml
       - id: detect-aws-credentials
         args: [
             "--allow-missing-credentials"
@@ -36,7 +35,21 @@ repos:
     rev: 3.0.0
     hooks:
       - id: shellcheck
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v10.15.0
+  - repo: local
     hooks:
-      - id: eslint
+      - id: markdownlint-cli2
+        name: markdownlint-cli2
+        entry: markdownlint-cli2
+        language: system
+        types: [markdown]
+      - id: golangci-lint
+        name: golangci-lint
+        entry: golangci-lint run -c .golangci.yml
+        language: system
+        files: \.go$
+        pass_filenames: false
+      - id: actionlint
+        name: actionlint
+        entry: actionlint
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$

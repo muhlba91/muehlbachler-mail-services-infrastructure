@@ -1,0 +1,2 @@
+# Each paragraph sits on one line (DOC-06), so line length is not limited.
+MD013: false
