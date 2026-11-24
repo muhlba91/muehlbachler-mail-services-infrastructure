@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 Restart=always
+RestartSec=10
 WorkingDirectory=/opt/ntfy
 ExecStartPre=/usr/bin/docker compose --project-name ntfy pull
 ExecStart=/usr/bin/docker compose --project-name ntfy up --force-recreate --remove-orphans

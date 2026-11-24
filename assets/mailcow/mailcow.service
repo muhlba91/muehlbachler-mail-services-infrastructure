@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 Restart=always
+RestartSec=10
 WorkingDirectory=/opt/mailcow
 ExecStartPre=/usr/bin/docker compose --project-name mailcow pull
 ExecStart=/usr/bin/docker compose --project-name mailcow up --force-recreate --remove-orphans

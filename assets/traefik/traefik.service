@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 Restart=always
+RestartSec=10
 WorkingDirectory=/opt/traefik
 ExecStartPre=/usr/bin/docker compose --file /opt/traefik/docker-compose.yml --project-name traefik pull
 ExecStart=/usr/bin/docker compose --file /opt/traefik/docker-compose.yml --project-name traefik up --force-recreate
