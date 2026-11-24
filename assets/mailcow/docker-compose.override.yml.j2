@@ -11,7 +11,7 @@ services:
       - traefik.http.routers.mailcow_acme.priority=200
       - traefik.http.routers.mailcow_acme.service=mailcow_http
 
-      - traefik.http.routers.mailcow_http.rule=HostRegexp(`^mail\..+$`, `^autodiscover\..+$`, `^autoconfig\..+$`, `^mta-sts\..+$`)
+      - traefik.http.routers.mailcow_http.rule=HostRegexp(`^mail\..+$`) || HostRegexp(`^autodiscover\..+$`) || HostRegexp(`^autoconfig\..+$`) || HostRegexp(`^mta-sts\..+$`)
       - traefik.http.routers.mailcow_http.entrypoints=web
       - traefik.http.routers.mailcow_http.middlewares=redirect-to-https
       - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
